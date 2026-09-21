@@ -1,0 +1,13 @@
+networks:
+  infra_net:
+    external: true
+
+services:
+  portfolio-api:
+    build: ./api
+    restart: unless-stopped
+    environment:
+      PORT: 4000
+    ports:
+      - "4000:4000"
+    networks: [infra_net]
