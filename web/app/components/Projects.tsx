@@ -5,13 +5,17 @@ import { useInView } from '../hooks/useInView';
 const projects = [
   {
     num: '01',
-    title: 'Future Steel Dashboard',
-    tagline: 'Enterprise admin dashboard for a steel manufacturing company',
+    title: 'Config-Driven ERP Platform',
+    tagline: 'One codebase, many fully branded client products',
     description:
-      'A full-featured internal admin dashboard built to manage employee attendance, overtime, payroll reporting, and daily operations — with real-time data updates, Excel export, and role-based access control.',
-    tech: ['React', 'TypeScript', 'Node.js', 'Express', 'MySQL', 'Redis', 'Tailwind CSS', 'TanStack Query', 'TypeORM', 'Bun'],
-    role: 'Full-Stack Developer',
-    year: '2024',
+      'Ships as separate, fully branded products from a single JSON config (modules, roles, workflows, theming) — a new client instance goes live in about 5 minutes with no code changes. Runs a steel fabrication company\'s production ERP: job orders, workforce management and inventory with role-based access.',
+    tech: ['React 19', 'TypeScript', 'TanStack', 'JWT', 'RBAC'],
+    links: [
+      { label: 'Live client ERP', href: 'https://admin.ftrsteel.com' },
+      { label: 'Demo', href: 'https://steelops.teeme.org' },
+    ],
+    role: 'Full-Stack Engineer',
+    year: '2025',
     type: 'Web Application',
     mockup: {
       type: 'browser' as const,
@@ -21,23 +25,24 @@ const projects = [
         { w: '35%', h: 10, opacity: 0.12 },
       ],
       cards: [
-        { label: 'Attendance', value: '248', color: '#3b82f6' },
-        { label: 'On Leave', value: '12', color: '#f59e0b' },
-        { label: 'OT Hours', value: '86h', color: '#10b981' },
-        { label: 'Payroll', value: 'Ready', color: '#8b5cf6' },
+        { label: 'Job Orders', value: '64', color: '#3b82f6' },
+        { label: 'Workforce', value: '248', color: '#f59e0b' },
+        { label: 'Inventory', value: '1.2k', color: '#10b981' },
+        { label: 'Roles', value: '6', color: '#8b5cf6' },
       ],
     },
   },
   {
     num: '02',
     title: 'Teeme',
-    tagline: 'A Jira-alternative project management platform with a companion mobile app',
+    tagline: 'SaaS project management for software teams — designed, built and launched solo',
     description:
-      'Modern project management system featuring Kanban boards with drag-and-drop, team collaboration, OAuth auth, analytics dashboards, email notifications, and a cross-platform iOS & Android mobile app built with Expo.',
-    tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Prisma', 'Expo', 'React Native', 'Tailwind CSS 4', 'shadcn/ui', 'dnd-kit', 'Recharts', 'Bun'],
-    role: 'Full-Stack Developer',
-    year: '2024',
-    type: 'Web + Mobile App',
+      'Sprints, live Kanban boards, time tracking and analytics on a multi-tenant Org/Team/Project permission model with Zod-validated, JWT-protected APIs. Includes an AI assistant that turns plain-language or voice commands into board actions, asks for approval and only acts within the user\'s role.',
+    tech: ['Next.js', 'TypeScript', 'Node.js', 'Express', 'Bun', 'PostgreSQL', 'Prisma', 'Claude API', 'Zod'],
+    links: [{ label: 'teeme.org', href: 'https://teeme.org' }],
+    role: 'Founder & Engineer',
+    year: '2025',
+    type: 'SaaS',
     mockup: {
       type: 'split' as const,
       accent: '#8b5cf6',
@@ -72,7 +77,7 @@ function BrowserMockup({ mockup }: { mockup: typeof projects[0]['mockup'] & { ty
         <div className="flex gap-4 h-[220px] md:h-[280px]">
           {/* Sidebar */}
           <div className="w-[140px] shrink-0 space-y-1.5">
-            {['Dashboard', 'Employees', 'Attendance', 'Payroll', 'Reports', 'Settings'].map((item, i) => (
+            {['Dashboard', 'Job Orders', 'Workforce', 'Inventory', 'Reports', 'Settings'].map((item, i) => (
               <div
                 key={item}
                 className="h-7 rounded-md flex items-center px-2.5"
@@ -313,9 +318,23 @@ function ProjectCard({
             )}
           </div>
 
-          {/* Role */}
-          <div className="flex items-center gap-2">
+          {/* Role + links */}
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <span className="text-xs text-[#444] tracking-wider uppercase">{project.role}</span>
+            {project.links.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-xs text-[#666] hover:text-white transition-colors duration-200 cursor-pointer"
+              >
+                {link.label}
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M2 8L8 2M8 2H4M8 2V6" />
+                </svg>
+              </a>
+            ))}
           </div>
         </div>
 

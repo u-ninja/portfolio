@@ -15,9 +15,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Ullas — Full-Stack Developer",
+  title: "Ullas JS — Senior Frontend / Full-Stack Engineer",
   description:
-    "Building modern web and mobile applications — from real-time dashboards and project management tools to cross-platform mobile apps.",
+    "Senior engineer shipping production web platforms in React, Next.js, TypeScript and Node.js — real-time logistics systems, config-driven ERPs and Teeme.",
 };
 
 export default function RootLayout({

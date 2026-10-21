@@ -4,28 +4,24 @@ import { useInView } from '../hooks/useInView';
 
 const skillGroups = [
   {
-    category: 'Languages',
-    skills: ['JavaScript', 'TypeScript'],
-  },
-  {
     category: 'Frontend',
-    skills: ['React', 'Next.js', 'React Native', 'Expo', 'Tailwind CSS', 'shadcn/ui', 'Ant Design', 'Radix UI', 'TanStack Query', 'TanStack Router', 'Zustand', 'Recharts', 'dnd-kit'],
+    skills: ['React', 'Next.js', 'TypeScript', 'JavaScript', 'Vue.js', 'Nuxt.js', 'TanStack', 'Pinia', 'Tailwind CSS', 'shadcn/ui'],
   },
   {
     category: 'Backend',
-    skills: ['Node.js', 'Bun', 'Express.js', 'Prisma', 'TypeORM', 'REST APIs'],
+    skills: ['Node.js', 'Express', 'Bun', 'REST', 'Socket.IO', 'Zod', 'JWT'],
   },
   {
     category: 'Databases',
-    skills: ['PostgreSQL', 'MySQL', 'Redis', 'Supabase'],
+    skills: ['PostgreSQL', 'Azure SQL', 'MySQL', 'MongoDB', 'Prisma', 'TypeORM'],
   },
   {
-    category: 'Tools',
-    skills: ['Git', 'GitHub', 'Docker', 'Expo EAS'],
+    category: 'Cloud & DevOps',
+    skills: ['Azure Container Apps', 'Azure API Management', 'Azure DevOps CI/CD', 'Vercel', 'Git'],
   },
   {
-    category: 'Bonus',
-    skills: ['Godot'],
+    category: 'Architecture & AI',
+    skills: ['Multi-tenant systems', 'Config-driven systems', 'RBAC', 'Real-time systems', 'SAP S/4HANA', 'Cursor', 'LLM agents', 'Claude API'],
   },
 ];
 

@@ -27,28 +27,27 @@ export function About() {
           {/* Right: text */}
           <div className={`space-y-5 reveal reveal-delay-2 ${inView ? 'visible' : ''}`}>
             <p className="text-[#666] leading-relaxed">
-              I&apos;m a full-stack developer who loves turning complex problems into clean, usable software.
-              I work across the entire stack — from designing database schemas and building APIs to crafting
-              polished user interfaces.
+              I&apos;m a senior engineer from Kochi with nearly 4 years shipping production web platforms in
+              React, Next.js, TypeScript and Node.js. I lead a team of 3–5 engineers building SAP- and
+              WMS-integrated logistics systems.
             </p>
             <p className="text-[#555] leading-relaxed">
-              My recent work spans enterprise-grade admin dashboards, Kanban-based project management
-              platforms, and cross-platform mobile apps with React Native and Expo. I care deeply about
-              performance, code quality, and great user experiences.
+              I built a config-driven platform that launches a fully branded client product from a single
+              JSON file in about 5 minutes, and designed, built and launched my own SaaS, Teeme.
             </p>
             <p className="text-[#444] leading-relaxed">
-              When I&apos;m not building, I&apos;m exploring game development with Godot or diving into new tools
-              in the JS/TS ecosystem.
+              I work AI-first while owning every line I ship. Open to remote roles and relocation to the
+              UAE, Australia or Germany.
             </p>
 
             {/* Email link */}
             <div className="pt-4">
               <a
-                href="mailto:ullasjskadakkal75@gmail.com"
+                href="mailto:hello@teeme.org"
                 className="inline-flex items-center gap-2 text-sm text-[#666] hover:text-white transition-colors duration-200 group cursor-pointer"
               >
                 <span className="border-b border-[#333] group-hover:border-white transition-colors duration-300 pb-0.5">
-                  hello@ullas.dev
+                  hello@teeme.org
                 </span>
                 <svg
                   width="14"

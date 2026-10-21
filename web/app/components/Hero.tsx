@@ -75,11 +75,11 @@ export function Hero() {
               className="text-[#999] text-xl md:text-2xl mb-3 font-light"
               style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
             >
-              Full-Stack Developer
+              Senior Frontend / Full-Stack Engineer
             </p>
             <p className="text-[#555] text-base leading-relaxed max-w-md">
-              Building modern web &amp; mobile apps — real-time dashboards,
-              project management tools, and cross-platform mobile experiences.
+              Shipping production platforms in React, Next.js, TypeScript and Node.js —
+              real-time logistics systems, config-driven ERPs, and my own SaaS.
             </p>
           </div>
 

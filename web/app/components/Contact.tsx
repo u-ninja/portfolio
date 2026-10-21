@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useInView } from '../hooks/useInView';
 
 export function Contact() {
@@ -32,25 +33,9 @@ export function Contact() {
 
         {/* Email CTA */}
         <div className={`mb-14 reveal reveal-delay-2 ${inView ? 'visible' : ''}`}>
-          <a
-            href="mailto:ullasjskadakkal75@gmail.com"
-            className="group inline-flex items-center gap-3 text-lg md:text-xl text-[#666] hover:text-white transition-colors duration-300 cursor-pointer"
-          >
-            <span className="border-b border-[#333] group-hover:border-white transition-colors duration-300 pb-0.5">
-              hello@ullas.dev
-            </span>
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 18 18"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-200"
-            >
-              <path d="M3 15L15 3M15 3H6M15 3V12" />
-            </svg>
-          </a>
+          <Link className="text-sm px-4 py-2 rounded-full border border-[rgba(255,255,255,0.15)] text-[#ccc] hover:bg-white hover:text-black hover:border-white transition-all duration-200 cursor-pointer" href={'/start-project'}>
+            Start a project
+          </Link>
         </div>
 
         {/* Social links */}
@@ -78,7 +63,7 @@ export function Contact() {
       {/* Footer */}
       <div className="border-t border-[rgba(255,255,255,0.04)] py-6">
         <div className="max-w-6xl mx-auto px-6 md:px-10 flex flex-col md:flex-row items-center justify-between gap-3">
-          <span className="text-xs text-[#333]">© 2024 Ullas. All rights reserved.</span>
+          <span className="text-xs text-[#333]">© {new Date().getFullYear()} Ullas. All rights reserved.</span>
           <span className="text-xs text-[#222]">Designed &amp; built with Next.js</span>
         </div>
       </div>
