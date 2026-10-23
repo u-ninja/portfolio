@@ -20,6 +20,7 @@ const projects = [
     mockup: {
       type: 'browser' as const,
       accent: '#3b82f6',
+      nav: ['Dashboard', 'Job Orders', 'Workforce', 'Inventory', 'Reports', 'Settings'],
       rows: [
         { w: '55%', h: 10, opacity: 0.25 },
         { w: '35%', h: 10, opacity: 0.12 },
@@ -53,6 +54,30 @@ const projects = [
       ],
     },
   },
+  {
+    num: '03',
+    title: 'NinjaTrade',
+    tagline: 'Personal paper-trading platform for monthly index and crypto investing',
+    description:
+      'A daily job fetches market prices, invests a monthly amount on paper using backtested rules (200-day trend, fear-gauge gates) and sends a Telegram summary. A FastAPI + React web app shows the portfolio, backtests and live server health, deployed on a hardened VM behind Cloudflare Access and Tailscale. Paper money only, by design.',
+    tech: ['Python', 'FastAPI', 'pandas', 'React 19', 'TypeScript', 'ECharts', 'systemd', 'Caddy', 'Cloudflare Access'],
+    links: [] as { label: string; href: string }[],
+    role: 'Solo Developer',
+    year: '2026',
+    type: 'Web Application',
+    mockup: {
+      type: 'browser' as const,
+      accent: '#10b981',
+      nav: ['Today', 'Portfolio', 'Plan', 'Lab', 'System', 'Status'],
+      rows: [],
+      cards: [
+        { label: 'Invested', value: '₹60k', color: '#10b981' },
+        { label: 'Return', value: '+8.4%', color: '#3b82f6' },
+        { label: 'Fear & Greed', value: '38', color: '#f59e0b' },
+        { label: 'Next buy', value: '1 Nov', color: '#8b5cf6' },
+      ],
+    },
+  },
 ];
 
 // ── Mockup components ────────────────────────────────────────────────────────
@@ -77,7 +102,7 @@ function BrowserMockup({ mockup }: { mockup: typeof projects[0]['mockup'] & { ty
         <div className="flex gap-4 h-[220px] md:h-[280px]">
           {/* Sidebar */}
           <div className="w-[140px] shrink-0 space-y-1.5">
-            {['Dashboard', 'Job Orders', 'Workforce', 'Inventory', 'Reports', 'Settings'].map((item, i) => (
+            {mockup.nav.map((item, i) => (
               <div
                 key={item}
                 className="h-7 rounded-md flex items-center px-2.5"
@@ -228,7 +253,7 @@ export function Projects() {
               Projects
             </h2>
           </div>
-          <span className="text-[#333] text-sm tabular-nums">02 projects</span>
+          <span className="text-[#333] text-sm tabular-nums">{String(projects.length).padStart(2, '0')} projects</span>
         </div>
 
         {/* Projects list */}
