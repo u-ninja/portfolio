@@ -12,7 +12,7 @@ export function ProjectHero() {
 
 	return (
 		<section
-			className='relative min-h-screen flex flex-col justify-end pb-20 md:pb-28 overflow-hidden'
+			className='relative min-h-[75vh] flex flex-col justify-end pt-32 pb-20 md:pb-28 overflow-hidden'
 			style={{
 				background: 'radial-gradient(ellipse 90% 65% at 50% -5%, #131313 0%, #080808 55%, #040404 100%)',
 			}}>
@@ -76,6 +76,14 @@ export function ProjectHero() {
 							reply will be.
 						</p>
 					</div>
+					<a
+						href='#project-form'
+						className='self-start md:self-auto inline-flex items-center gap-2 text-sm px-5 py-2.5 rounded-full border border-[rgba(255,255,255,0.15)] text-[#ccc] hover:bg-white hover:text-black hover:border-white transition-all duration-200 cursor-pointer'>
+						Fill in the brief
+						<svg width='10' height='10' viewBox='0 0 10 10' fill='none' stroke='currentColor' strokeWidth='1.5'>
+							<path d='M5 1v8M5 9L1.5 5.5M5 9l3.5-3.5' />
+						</svg>
+					</a>
 				</div>
 			</div>
 

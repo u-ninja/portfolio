@@ -2,11 +2,11 @@
 import { useState, useEffect, useRef } from 'react';
 
 const links = [
-  { label: 'Work', href: '#work' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'About', href: '#about' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Work', href: '/#work' },
+  { label: 'Experience', href: '/#experience' },
+  { label: 'Skills', href: '/#skills' },
+  { label: 'About', href: '/#about' },
+  { label: 'Contact', href: '/#contact' },
 ];
 
 export function Nav() {
@@ -60,7 +60,7 @@ export function Nav() {
         <nav className="max-w-6xl mx-auto px-6 md:px-10 h-[68px] flex items-center justify-between">
           {/* Logo */}
           <a
-            href="#"
+            href="/"
             className="text-white font-bold text-xl tracking-tight hover:opacity-70 transition-opacity duration-200"
             style={{ fontFamily: 'var(--font-archivo), sans-serif' }}
           >
@@ -83,7 +83,7 @@ export function Nav() {
 
           {/* Desktop CTA */}
           <a
-            href="#contact"
+            href="/start-project"
             className="hidden md:inline-flex text-sm px-4 py-2 rounded-full border border-[rgba(255,255,255,0.15)] text-[#ccc] hover:bg-white hover:text-black hover:border-white transition-all duration-200 cursor-pointer"
           >
             Get in touch
@@ -160,7 +160,7 @@ export function Nav() {
           {/* CTA at bottom */}
           <div className="mt-auto pt-8">
             <a
-              href="#contact"
+              href="/start-project"
               onClick={closeMenu}
               className="flex items-center justify-center w-full py-4 rounded-full bg-white text-black text-sm font-semibold hover:bg-[#c4f135] transition-colors duration-200 cursor-pointer"
             >

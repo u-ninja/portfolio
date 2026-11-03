@@ -1,65 +1,188 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useState, type FormEvent } from 'react'
+import { useInView } from '../../hooks/useInView'
 
-// SVG noise texture as data URI — rendered once, composited at low opacity
+const EMAIL = 'hello@teeme.org'
+
+const projectTypes = ['Web app', 'Website', 'Dashboard / ERP', 'Something else']
+const budgets = ['< $2k', '$2k – $5k', '$5k – $15k', '$15k+', 'Not sure yet']
+
+const inputClass =
+	'w-full bg-transparent border-b border-[rgba(255,255,255,0.12)] focus:border-[#c4f135] outline-none py-3 text-white placeholder:text-[#444] transition-colors duration-200'
+
+const labelClass = 'block text-xs tracking-[0.15em] uppercase text-[#666] mb-1'
+
+function Chips({
+	name,
+	options,
+	value,
+	onChange,
+}: {
+	name: string
+	options: string[]
+	value: string
+	onChange: (v: string) => void
+}) {
+	return (
+		<div role='radiogroup' aria-label={name} className='flex flex-wrap gap-2 mt-3'>
+			{options.map((opt) => {
+				const active = value === opt
+				return (
+					<button
+						key={opt}
+						type='button'
+						role='radio'
+						aria-checked={active}
+						onClick={() => onChange(active ? '' : opt)}
+						className={`text-sm px-4 py-2 rounded-full border transition-all duration-200 cursor-pointer ${
+							active
+								? 'bg-[#c4f135] border-[#c4f135] text-black'
+								: 'border-[rgba(255,255,255,0.15)] text-[#999] hover:border-white hover:text-white'
+						}`}>
+						{opt}
+					</button>
+				)
+			})}
+		</div>
+	)
+}
+
 export function ProjectContact() {
-	const [mounted, setMounted] = useState(false)
-	useEffect(() => {
-		setMounted(true)
-	}, [])
+	const { ref, inView } = useInView<HTMLElement>(0.1)
+	const [name, setName] = useState('')
+	const [email, setEmail] = useState('')
+	const [type, setType] = useState('')
+	const [budget, setBudget] = useState('')
+	const [details, setDetails] = useState('')
+	const [sent, setSent] = useState(false)
+
+	function onSubmit(e: FormEvent) {
+		e.preventDefault()
+		const subject = `New project${type ? ` — ${type}` : ''} from ${name}`
+		const body = [
+			`Name: ${name}`,
+			`Email: ${email}`,
+			type ? `Project type: ${type}` : null,
+			budget ? `Budget: ${budget}` : null,
+			'',
+			details,
+		]
+			.filter((l) => l !== null)
+			.join('\n')
+		window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+		setSent(true)
+	}
 
 	return (
-		<section className='relative mt-8 flex flex-col justify-end pb-20 md:pb-28 overflow-hidden'>
-			<div className='relative z-10 max-w-6xl mx-auto px-6 md:px-10 w-full'>
-				{/* Status */}
-				<div
-					className={`flex items-center gap-2.5 mb-8 transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
-					style={{ transitionDelay: '0.1s' }}>
-					<span className='relative flex h-2 w-2'>
-						<span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-[#c4f135] opacity-75' />
-						<span className='relative inline-flex rounded-full h-2 w-2 bg-[#c4f135]' />
-					</span>
-					<span
-						className='text-xs text-[#666] tracking-[0.15em] uppercase'
-						style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}>
-						Start a project
-					</span>
-				</div>
-
-				{/* Name */}
-				<h1
-					className={`font-black text-white leading-[0.88] tracking-[-0.03em] mb-10 transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
-					style={{
-						fontFamily: 'var(--font-archivo), sans-serif',
-						fontSize: 'clamp(2rem, 16vw, 6.5rem)',
-						transitionDelay: '0.2s',
-					}}>
-					Have a project in mind?
-				</h1>
-
-				{/* Bottom row */}
-				<div
-					className={`flex flex-col md:flex-row md:items-end md:justify-between gap-8 transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
-					style={{ transitionDelay: '0.35s' }}>
-					<div>
-						<p className='text-[#555] text-base leading-relaxed max-w-md'>
-							I work directly with clients to understand what needs to be built, then design and develop
-							it myself. Tell me about the project — the more context you give, the more useful my first
-							reply will be.
-						</p>
+		<section id='project-form' ref={ref} className='relative'>
+			<div className='max-w-6xl mx-auto px-6 md:px-10 py-24 md:py-32 grid md:grid-cols-[1fr_1.6fr] gap-16'>
+				{/* Left column */}
+				<div className={`reveal ${inView ? 'visible' : ''}`}>
+					<span className='text-xs tracking-[0.18em] text-[#444] uppercase'>Project brief</span>
+					<h2
+						className='font-black text-white leading-[0.95] tracking-[-0.03em] mt-6 mb-6'
+						style={{ fontFamily: 'var(--font-archivo), sans-serif', fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
+						Tell me what
+						<br />
+						<span className='text-[#333]'>you&apos;re building.</span>
+					</h2>
+					<p className='text-[#555] leading-relaxed max-w-sm mb-10'>
+						Submitting opens your email app with everything filled in. I usually reply within two working
+						days.
+					</p>
+					<div className='space-y-3 text-sm'>
+						<a
+							href={`mailto:${EMAIL}`}
+							className='block text-[#999] hover:text-white transition-colors duration-200'>
+							{EMAIL}
+						</a>
+						<a
+							href='https://linkedin.com/in/ullas-js-7694391b2/'
+							target='_blank'
+							rel='noopener noreferrer'
+							className='block text-[#444] hover:text-white transition-colors duration-200'>
+							LinkedIn ↗
+						</a>
 					</div>
 				</div>
-			</div>
 
-			{/* Bottom divider */}
-			<div
-				aria-hidden='true'
-				className='absolute bottom-0 left-0 right-0 h-px z-10'
-				style={{
-					background:
-						'linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 20%, rgba(255,255,255,0.06) 80%, transparent)',
-				}}
-			/>
+				{/* Form */}
+				<form onSubmit={onSubmit} className={`space-y-10 reveal reveal-delay-1 ${inView ? 'visible' : ''}`}>
+					<div className='grid sm:grid-cols-2 gap-10'>
+						<div>
+							<label htmlFor='pc-name' className={labelClass}>
+								Name
+							</label>
+							<input
+								id='pc-name'
+								required
+								autoComplete='name'
+								value={name}
+								onChange={(e) => setName(e.target.value)}
+								placeholder='Your name'
+								className={inputClass}
+							/>
+						</div>
+						<div>
+							<label htmlFor='pc-email' className={labelClass}>
+								Email
+							</label>
+							<input
+								id='pc-email'
+								type='email'
+								required
+								autoComplete='email'
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+								placeholder='you@company.com'
+								className={inputClass}
+							/>
+						</div>
+					</div>
+
+					<div>
+						<span className={labelClass}>Project type</span>
+						<Chips name='Project type' options={projectTypes} value={type} onChange={setType} />
+					</div>
+
+					<div>
+						<span className={labelClass}>Budget</span>
+						<Chips name='Budget' options={budgets} value={budget} onChange={setBudget} />
+					</div>
+
+					<div>
+						<label htmlFor='pc-details' className={labelClass}>
+							Details
+						</label>
+						<textarea
+							id='pc-details'
+							required
+							rows={5}
+							value={details}
+							onChange={(e) => setDetails(e.target.value)}
+							placeholder='Goals, timeline, links to anything that exists today…'
+							className={`${inputClass} resize-y`}
+						/>
+					</div>
+
+					<div className='flex flex-col sm:flex-row sm:items-center gap-5'>
+						<button
+							type='submit'
+							className='inline-flex items-center justify-center px-7 py-3.5 rounded-full bg-white text-black text-sm font-semibold hover:bg-[#c4f135] transition-colors duration-200 cursor-pointer'>
+							Send project brief
+						</button>
+						{sent && (
+							<p role='status' className='text-sm text-[#666]'>
+								Email app didn&apos;t open? Write to{' '}
+								<a href={`mailto:${EMAIL}`} className='text-[#c4f135] hover:underline'>
+									{EMAIL}
+								</a>
+								.
+							</p>
+						)}
+					</div>
+				</form>
+			</div>
 		</section>
 	)
 }
