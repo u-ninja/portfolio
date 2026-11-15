@@ -1,6 +1,7 @@
 'use client';
 import { useState, type FormEvent } from 'react';
 import { Flow, Window } from '../../scenes/demos/Window';
+import { WHATSAPP_URL, WhatsAppIcon } from '../../components/WhatsApp';
 
 const EMAIL = 'hello@teeme.org';
 const projectTypes = ['Web app', 'Website', 'Dashboard / ERP', 'Something else'];
@@ -138,6 +139,10 @@ export function Brief() {
           <p className="text-sm leading-relaxed text-mute">
             Rather skip the form?{' '}
             <a href={`mailto:${EMAIL}`} className="text-paper underline decoration-line underline-offset-4 hover:decoration-signal-soft">Email me</a>
+            ,{' '}
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="text-paper underline decoration-line underline-offset-4 hover:decoration-signal-soft">
+              <span className="mr-1 inline-block align-[-0.2em]"><WhatsAppIcon size={16} /></span>message me on WhatsApp
+            </a>
             {' '}or find me on{' '}
             <a href="https://linkedin.com/in/ullas-js-7694391b2/" target="_blank" rel="noopener noreferrer" className="text-paper underline decoration-line underline-offset-4 hover:decoration-signal-soft">LinkedIn</a>.
           </p>

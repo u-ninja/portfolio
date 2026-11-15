@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Flow, Window } from './Window';
+import { Window } from './Window';
 
 const columns = ['To do', 'In progress', 'Done'];
 const cards = ['Auth flow', 'Onboarding', 'Kanban board', 'Search', 'API setup', 'DB schema'];
@@ -28,14 +28,15 @@ export function TeemeDemo({ stage }: { stage: number }) {
 
   return (
     <Window title="teeme.org / board" note="click a card to move it">
-      <div className="grid grid-cols-3 gap-3 font-mono text-[11px] text-mute">
+      <div className="flex h-full flex-col">
+      <div className="grid grid-cols-3 gap-2 whitespace-nowrap font-mono text-[10px] text-mute sm:gap-3 sm:text-[11px]">
         {columns.map((c, i) => (
           <div key={c} className="border-b border-line pb-2">
             {c} <span className="text-signal-soft">{at.filter((x) => x === i).length}</span>
           </div>
         ))}
       </div>
-      <div className="relative mt-3 h-[216px]">
+      <div className="relative mt-3 min-h-[160px] flex-1 overflow-hidden [--gap:0.5rem] [--row:40px] sm:min-h-[216px] sm:[--gap:0.75rem] sm:[--row:52px]">
         {cards.map((title, i) => {
           const row = at.slice(0, i).filter((c) => c === at[i]).length;
           return (
@@ -44,8 +45,8 @@ export function TeemeDemo({ stage }: { stage: number }) {
               type="button"
               onClick={() => move(i)}
               aria-label={`${title}, in ${columns[at[i]]}. Move to next column`}
-              className="absolute left-0 top-0 w-[calc((100%-1.5rem)/3)] cursor-pointer border border-line bg-ink px-3 py-2.5 text-left text-sm transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-signal-soft"
-              style={{ transform: `translate(calc(${at[i]} * (100% + 0.75rem)), ${row * 52}px)` }}
+              className="absolute left-0 top-0 h-9 w-[calc((100%-1rem)/3)] cursor-pointer truncate border border-line bg-ink px-2 text-left text-xs transition-transform sm:h-11 sm:w-[calc((100%-1.5rem)/3)] sm:px-3 sm:text-sm duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-signal-soft"
+              style={{ transform: `translate(calc(${at[i]} * (100% + var(--gap))), calc(${row} * var(--row)))` }}
             >
               {title}
             </button>
@@ -53,7 +54,7 @@ export function TeemeDemo({ stage }: { stage: number }) {
         })}
       </div>
 
-      <div key={stage} className="absolute inset-x-4 bottom-4 border-t border-line pt-3 font-mono text-xs">
+      <div key={stage} className="shrink-0 border-t border-line pt-3 font-mono text-[11px] sm:text-xs">
         {stage === 0 && <p className="text-mute">Sprints, live boards, time tracking and analytics.</p>}
         {stage === 1 && <p className="row-in text-mute">Two cards just moved. Everyone on the board sees it live.</p>}
         {stage === 2 && (
@@ -77,8 +78,8 @@ export function TeemeDemo({ stage }: { stage: number }) {
           </>
         )}
         {stage === 3 && (
-          <div className="space-y-3">
-            <Flow steps={['Org', 'Team', 'Project', 'Role']} />
+          <div className="space-y-2">
+            <p className="row-in text-paper">Org <span className="text-signal-soft">→</span> Team <span className="text-signal-soft">→</span> Project <span className="text-signal-soft">→</span> Role</p>
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-mute">Act as</span>
               {roles.map((r) => (
@@ -96,6 +97,7 @@ export function TeemeDemo({ stage }: { stage: number }) {
             </div>
           </div>
         )}
+      </div>
       </div>
     </Window>
   );

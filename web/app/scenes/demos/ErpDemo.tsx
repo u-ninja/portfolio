@@ -30,7 +30,7 @@ export function ErpDemo({ stage }: { stage: number }) {
 
   return (
     <Window title="one codebase" note="switch the config file">
-      <div className="mb-3 flex flex-wrap gap-2 font-mono text-xs">
+      <div className="mb-3 flex gap-1.5 whitespace-nowrap font-mono text-[10px] sm:gap-2 sm:text-xs">
         {configs.map((c, i) => (
           <button
             key={c.file}
@@ -70,7 +70,7 @@ export function ErpDemo({ stage }: { stage: number }) {
             {cfg.brand}
             <span className="ml-auto font-mono text-[11px] font-normal text-mute">{role}</span>
           </div>
-          <div className="flex min-h-0 flex-1">
+          <div className="flex min-h-0 flex-1 overflow-hidden">
             <ul className="w-[42%] shrink-0 border-r border-line p-2 text-xs">
               {cfg.modules.map((m, i) => allowed.includes(i) && (
                 <li key={m} className="row-in">
@@ -96,7 +96,7 @@ export function ErpDemo({ stage }: { stage: number }) {
             </div>
           </div>
           {stage === 2 && (
-            <div className="flex flex-wrap items-center gap-2 border-t border-line p-2 font-mono text-[11px]">
+            <div className="flex flex-wrap items-center gap-1.5 border-t border-line p-2 font-mono text-[10px] sm:gap-2 sm:text-[11px]">
               <span className="text-mute">Sign in as</span>
               {roleNames.map((r, i) => (
                 <button

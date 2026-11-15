@@ -1,13 +1,14 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { WHATSAPP_URL, WhatsAppIcon } from './WhatsApp';
 
 const links = [
-  { label: 'Skills', href: '/#skills' },
-  { label: 'Work', href: '/#work' },
-  { label: 'Systems', href: '/#systems' },
-  { label: 'Experience', href: '/#experience' },
-  { label: 'Contact', href: '/#contact' },
+  { label: 'Skills', href: '/#skills', fn: 'traverse(skills)' },
+  { label: 'Work', href: '/#work', fn: 'ship(projects)' },
+  { label: 'Systems', href: '/#systems', fn: 'explain(system)' },
+  { label: 'Experience', href: '/#experience', fn: 'git log' },
+  { label: 'Contact', href: '/#contact', fn: 'return contact' },
 ];
 
 export function Nav() {
@@ -53,7 +54,7 @@ export function Nav() {
       <header
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         style={{
-          background: scrolled || menuOpen ? 'rgba(5,6,10,0.88)' : 'transparent',
+          background: menuOpen ? 'var(--color-ink)' : scrolled ? 'rgba(5,6,10,0.88)' : 'transparent',
           backdropFilter: scrolled || menuOpen ? 'blur(16px)' : 'none',
           borderBottom: scrolled ? '1px solid rgba(255,255,255,0.06)' : '1px solid transparent',
         }}
@@ -121,58 +122,51 @@ export function Nav() {
         </nav>
       </header>
 
-      {/* Backdrop — click to close */}
-      <div
-        aria-hidden="true"
-        className={`mobile-nav-overlay ${menuOpen ? 'open' : ''}`}
-        onClick={closeMenu}
-      />
-
-      {/* Drawer */}
+      {/* Full-screen sheet. It sits under the header, so the logo and the close button stay in place. */}
       <div
         id="mobile-nav-drawer"
         ref={drawerRef}
         role="dialog"
         aria-label="Navigation menu"
         aria-modal="true"
-        className={`mobile-nav-drawer ${menuOpen ? 'open' : ''}`}
+        inert={!menuOpen}
+        className={`mobile-nav-sheet md:hidden ${menuOpen ? 'open' : ''}`}
       >
-        <div className="flex flex-col h-full px-8 pt-24 pb-10">
+        <div className="flex min-h-full flex-col px-6 pb-8 pt-28">
           <nav aria-label="Mobile navigation">
-            <ul className="space-y-0">
+            {/* the links hang off one line, like steps in a flowchart */}
+            <ul className="border-l border-line">
               {links.map((link, i) => (
-                <li key={link.href}>
+                <li key={link.href} className="relative overflow-hidden pl-6">
+                  <span aria-hidden="true" className="absolute -left-[5px] top-1/2 h-[9px] w-[9px] -translate-y-1/2 border border-signal bg-ink" />
                   <a
                     href={link.href}
                     onClick={closeMenu}
-                    className="flex items-center justify-between py-5 border-b border-[rgba(255,255,255,0.05)] text-2xl font-semibold text-mute hover:text-white transition-colors duration-200 cursor-pointer group"
-                    style={{
-                      fontFamily: 'var(--font-bricolage), sans-serif',
-                      transitionDelay: menuOpen ? `${i * 50}ms` : '0ms',
-                    }}
+                    className="rise flex items-baseline justify-between gap-4 py-2.5"
+                    style={{ '--i': i } as React.CSSProperties}
                   >
-                    <span>{link.label}</span>
-                    <svg
-                      width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5"
-                      className="opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-200"
-                    >
-                      <path d="M3 13L13 3M13 3H6M13 3V10" />
-                    </svg>
+                    <span className="display text-[clamp(2.75rem,13vw,4rem)]">{link.label}</span>
+                    <span className="font-mono text-xs text-signal-soft">{link.fn}</span>
                   </a>
                 </li>
               ))}
             </ul>
           </nav>
 
-          {/* CTA at bottom */}
-          <div className="mt-auto pt-8">
-            <a
-              href="/start-project"
-              onClick={closeMenu}
-              className="flex items-center justify-center w-full py-4 bg-white text-black text-sm font-semibold hover:bg-[#2f6bff] transition-colors duration-200 cursor-pointer"
-            >
-              Get in touch
-            </a>
+          <div className="mt-auto overflow-hidden pt-10">
+            <div className="rise space-y-3" style={{ '--i': links.length } as React.CSSProperties}>
+              <Link href="/start-project" onClick={closeMenu} className="btn btn-solid w-full justify-center">
+                Start a project
+              </Link>
+              <a href="/Ullas_JS_Resume.pdf" download className="btn w-full justify-center">
+                Download résumé
+              </a>
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="btn w-full justify-center">
+                <WhatsAppIcon size={18} />
+                Message me on WhatsApp
+              </a>
+              <p className="pt-3 font-mono text-xs text-mute">Kochi, India. Open to remote and relocation.</p>
+            </div>
           </div>
         </div>
       </div>

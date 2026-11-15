@@ -1,7 +1,9 @@
 import Link from 'next/link';
+import { WHATSAPP_URL, WhatsAppIcon } from '../components/WhatsApp';
 
 const links = [
   { label: 'Email me', href: 'mailto:hello@teeme.org' },
+  { label: 'WhatsApp', href: WHATSAPP_URL, icon: true },
   { label: 'LinkedIn', href: 'https://linkedin.com/in/ullas-js-7694391b2/' },
   { label: 'GitHub', href: 'https://github.com/UllasJs/' },
 ];
@@ -34,8 +36,9 @@ export function Invitation() {
               <a
                 href={l.href}
                 {...(l.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                className="underline decoration-line underline-offset-8 transition-colors hover:decoration-signal-soft"
+                className="inline-flex items-center gap-2 underline decoration-line underline-offset-8 transition-colors hover:decoration-signal-soft"
               >
+                {'icon' in l && <WhatsAppIcon />}
                 {l.label}
               </a>
             </li>

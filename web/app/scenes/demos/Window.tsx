@@ -2,7 +2,7 @@ export function Window({ title, note, children }: { title: string; note?: string
   return (
     <div className="flex h-full flex-col border border-line bg-panel">
       <div className="flex items-center justify-between gap-4 border-b border-line px-4 py-2.5 font-mono text-xs text-mute">
-        <span className="truncate text-paper">{title}</span>
+        <span className="shrink-0 text-paper">{title}</span>
         {note && <span className="truncate">{note}</span>}
       </div>
       <div className="relative min-h-0 flex-1 overflow-hidden p-4">{children}</div>

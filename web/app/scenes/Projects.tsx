@@ -107,7 +107,7 @@ function Showcase({ project }: { project: Project }) {
         for (const e of entries) if (e.isIntersecting) setStage(Number((e.target as HTMLElement).dataset.step));
       },
       // on small screens the demo is pinned over the top half, so the trigger line sits lower
-      { rootMargin: window.matchMedia('(min-width: 1024px)').matches ? '-50% 0px -50% 0px' : '-72% 0px -28% 0px' },
+      { rootMargin: window.matchMedia('(min-width: 1024px)').matches ? '-50% 0px -50% 0px' : '-80% 0px -20% 0px' },
     );
     steps.forEach((s) => io.observe(s));
     return () => io.disconnect();
@@ -135,7 +135,7 @@ function Showcase({ project }: { project: Project }) {
       </header>
 
       <div ref={ref} className="lg:grid lg:grid-cols-2 lg:gap-16">
-        <div className="sticky top-[68px] z-10 -mx-6 h-[44svh] min-h-[330px] bg-ink px-6 py-3 md:-mx-10 md:px-10 lg:order-2 lg:top-[14vh] lg:mx-0 lg:h-[72vh] lg:max-h-[560px] lg:bg-transparent lg:p-0">
+        <div className="sticky top-[68px] z-10 -mx-6 h-[54svh] min-h-[390px] bg-ink px-6 py-3 md:-mx-10 md:px-10 lg:order-2 lg:top-[14vh] lg:mx-0 lg:h-[72vh] lg:max-h-[560px] lg:bg-transparent lg:p-0">
           <Demo stage={stage} />
         </div>
         <ol>
@@ -148,8 +148,8 @@ function Showcase({ project }: { project: Project }) {
               <p className="mb-3 font-mono text-xs text-signal-soft">
                 {i + 1} / {project.steps.length}
               </p>
-              <h4 className="mb-4 text-3xl font-semibold md:text-4xl">{s.h}</h4>
-              <p className="max-w-md text-lg leading-relaxed text-mute">{s.body}</p>
+              <h4 className="mb-3 text-2xl font-semibold md:mb-4 md:text-4xl">{s.h}</h4>
+              <p className="max-w-md leading-relaxed text-mute md:text-lg">{s.body}</p>
             </li>
           ))}
         </ol>
