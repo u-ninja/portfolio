@@ -52,14 +52,14 @@ export default function Tailor() {
             Password
             <input
               name="password" type="password" required autoComplete="current-password"
-              className="mt-2 block w-full max-w-xs border border-line bg-panel px-3 py-2 text-sm text-paper"
+              className="mt-2 block w-full max-w-xs border border-line bg-panel px-3 py-2 focus:border-signal-soft text-sm text-paper"
             />
           </label>
           <label className="block font-mono text-xs text-mute">
             Job description
             <textarea
               value={jd} onChange={(e) => setJd(e.target.value)} required rows={12}
-              className="mt-2 block w-full border border-line bg-panel px-3 py-2 font-display text-sm leading-relaxed text-paper"
+              className="mt-2 block w-full border border-line bg-panel px-3 py-2 focus:border-signal-soft font-display text-sm leading-relaxed text-paper"
             />
           </label>
           <div className="flex flex-wrap items-center gap-3">

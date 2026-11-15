@@ -24,6 +24,8 @@ body {
 
 ::selection { background: var(--color-signal); color: #fff; }
 :focus-visible { outline: 2px solid var(--color-signal-soft); outline-offset: 3px; }
+/* text fields show focus by changing their border colour instead of a ring */
+input:focus-visible, textarea:focus-visible { outline: none; }
 
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: var(--color-ink); }
