@@ -1,22 +1,30 @@
 import { Nav } from './components/Nav';
-import { Hero } from './components/Hero';
-import { Projects } from './components/Projects';
-import { Experience } from './components/Experience';
-import { Skills } from './components/Skills';
-import { About } from './components/About';
-import { Contact } from './components/Contact';
+import { ParticleField } from './scenes/ParticleField';
+import { FlowRail } from './scenes/FlowRail';
+import { Hero } from './scenes/Hero';
+import { Statements } from './scenes/Statements';
+import { Universe } from './scenes/Universe';
+import { Projects } from './scenes/Projects';
+import { Architecture } from './scenes/Architecture';
+import { Experience } from './scenes/Experience';
+import { Playground } from './scenes/Playground';
+import { Invitation } from './scenes/Invitation';
 
 export default function Home() {
   return (
     <>
+      <ParticleField />
       <Nav />
-      <main>
+      <FlowRail />
+      <main className="relative z-10">
         <Hero />
+        <Statements />
+        <Universe />
         <Projects />
+        <Architecture />
         <Experience />
-        <Skills />
-        <About />
-        <Contact />
+        <Playground />
+        <Invitation />
       </main>
     </>
   );

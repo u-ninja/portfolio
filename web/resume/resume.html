@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ullas JS — Résumé</title>
+<!-- Source for public/Ullas_JS_Resume.pdf. Rebuild with ./build.sh. Open with ?light for the print version. -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=JetBrains+Mono:wght@400;500&display=block" rel="stylesheet">
+<script>if (location.search === '?light') addEventListener('DOMContentLoaded', () => document.body.classList.add('light'));</script>
+<link rel="stylesheet" href="../app/tailor/cv.css">
+<style>html, body { margin: 0; } html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }</style>
+</head>
+<body class="cv">
+  <header>
+    <div>
+      <p class="mono prompt"><span>$</span> ullas --resume</p>
+      <h1>Ullas JS</h1>
+      <p class="title">Senior Frontend / Full Stack Engineer. React, Next.js, TypeScript, Node.js.</p>
+    </div>
+    <p class="mono contact">
+      <b>Kochi, India</b><br>
+      Open to relocation (UAE, Australia, Germany) and remote<br>
+      <a href="tel:+919074376257">+91 90743 76257</a> / <a href="mailto:ullasjskadakkal75@gmail.com"><b>ullasjskadakkal75@gmail.com</b></a><br>
+      <a href="https://linkedin.com/in/ullas-js-7694391b2">linkedin.com/in/ullas-js-7694391b2</a><br>
+      <a href="https://github.com/UllasJs">github.com/UllasJs</a> / <a href="https://teeme.org"><b>teeme.org</b></a>
+    </p>
+  </header>
+
+  <section>
+    <h2>Summary</h2>
+    <p class="lead">Senior engineer with nearly 4 years shipping production web platforms in React, Next.js, TypeScript and Node.js. I lead 3–5 engineers on SAP- and WMS-integrated logistics systems, built a config-driven platform that launches a fully branded client product from a JSON file in about 5 minutes, and launched my own SaaS, Teeme. I work AI-first: in three weeks of October 2026 I shipped 230+ fixes and features with about 90 production deploys, while owning every line I ship.</p>
+  </section>
+
+  <section>
+    <h2>Experience <small>git log --career</small></h2>
+    <div>
+      <div class="job">
+        <div class="row"><h3>Senior Software Engineer <span>/ Digitrell, Kochi, India</span></h3><span class="mono when">Jan 2026 – Present</span></div>
+        <p class="mono note">Software Engineer, Apr 2025 – Dec 2025. Promoted after 9 months.</p>
+        <ul>
+          <li>Lead a team of 3–5 engineers on enterprise client projects; introduced the team’s code review workflow and technical standards.</li>
+          <li>Shipped 230+ fixes and features across 7 services (Node.js/TypeScript, Next.js, Azure SQL) in three weeks using AI-assisted development, with about 90 production deploys on Azure Container Apps.</li>
+          <li>Kept production stable while releasing about 29 times a week, using hotfix branches, revision-based deploys and deploy-pipeline fixes.</li>
+          <li>Integrated a second warehouse with a SCALE WMS: two-way sync of customers, carriers, buildings and appointments, with per-facility access.</li>
+          <li>Architected a high-concurrency warehouse platform integrated with SAP S/4HANA, with real-time Socket.IO dashboards for live operations.</li>
+          <li>Increased data-entry throughput by 40% by rewriting nested legacy queries and redesigning batch processing.</li>
+          <li>Designed a transaction-safe ledger pipeline for automated cashflow posting with a complete audit trail, on Azure with API Management and CI/CD.</li>
+        </ul>
+      </div>
+      <div class="job">
+        <div class="row"><h3>Frontend Developer <span>/ FPLE Technologies, Bengaluru, India</span></h3><span class="mono when">Jan 2024 – Mar 2025</span></div>
+        <ul>
+          <li>Improved Core Web Vitals and initial page load by 30% by moving key pages to server-side and static rendering in Nuxt.js.</li>
+          <li>Built a reusable Vue.js component library with centralized Pinia state, speeding up delivery and keeping the UI consistent across products.</li>
+        </ul>
+      </div>
+      <div class="job">
+        <div class="row"><h3>MERN Stack Developer <span>/ Scipy Technologies, Thiruvananthapuram, India</span></h3><span class="mono when">Jan 2023 – Jan 2024</span></div>
+        <ul>
+          <li>Migrated legacy multi-page workflows to React SPAs and built modular REST APIs in Node.js, TypeScript and MongoDB.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Projects <small>ship(projects)</small></h2>
+    <div>
+      <div class="proj">
+        <div class="row"><h3>Config-Driven ERP Platform</h3><span class="mono when"><a href="https://admin.ftrsteel.com">admin.ftrsteel.com</a> / demo: <a href="https://steelops.teeme.org">steelops.teeme.org</a></span></div>
+        <p class="mono stack">React 19 / TypeScript / TanStack / JWT / RBAC</p>
+        <ul>
+          <li>One codebase ships as separate, fully branded products from a single JSON config (modules, roles, workflows, theming); a new client instance goes live in about 5 minutes with no code changes.</li>
+          <li>Runs a steel fabrication company’s production ERP: job orders, workforce management and inventory with role-based access.</li>
+        </ul>
+      </div>
+      <div class="proj">
+        <div class="row"><h3>Teeme <span>/ SaaS project management for software teams</span></h3><span class="mono when"><a href="https://teeme.org">teeme.org</a></span></div>
+        <p class="mono stack">Next.js / TypeScript / Node.js, Express on Bun / PostgreSQL + Prisma / Claude API</p>
+        <ul>
+          <li>Designed, built and launched solo: sprints, live Kanban boards, time tracking and analytics, on a multi-tenant Org/Team/Project permission model with Zod-validated, JWT-protected APIs.</li>
+          <li>Shipped an AI assistant that turns plain-language or voice commands into board actions, asks for approval and only acts within the user’s role.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <dl>
+      <dt class="mono">Frontend</dt><dd>React, Next.js, TypeScript, JavaScript, Vue.js, Nuxt.js, TanStack, Pinia, Tailwind CSS, shadcn/ui</dd>
+      <dt class="mono">Backend &amp; data</dt><dd>Node.js, Express, Bun, REST, Socket.IO, Zod, JWT, PostgreSQL, Azure SQL, MySQL, MongoDB, Prisma, TypeORM</dd>
+      <dt class="mono">Cloud &amp; DevOps</dt><dd>Azure (Container Apps, API Management, DevOps CI/CD), Vercel, Git</dd>
+      <dt class="mono">Architecture &amp; AI</dt><dd>Multi-tenant and config-driven systems, RBAC, real-time systems, SAP S/4HANA. AI-first development with Cursor and LLM agents, Claude API</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    <div class="row"><h3>B.Tech, Computer Science <span>/ Vidya Academy of Science and Technology, Kerala</span></h3><span class="mono when">CGPA 8.6/10 / 2019 – 2023</span></div>
+  </section>
+
+  <footer class="mono"><span>ULLAS JS</span><span>process exited with code 0</span></footer>
+</body>
+</html>

@@ -1,11 +1,12 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 
 const links = [
-  { label: 'Work', href: '/#work' },
-  { label: 'Experience', href: '/#experience' },
   { label: 'Skills', href: '/#skills' },
-  { label: 'About', href: '/#about' },
+  { label: 'Work', href: '/#work' },
+  { label: 'Systems', href: '/#systems' },
+  { label: 'Experience', href: '/#experience' },
   { label: 'Contact', href: '/#contact' },
 ];
 
@@ -52,20 +53,26 @@ export function Nav() {
       <header
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         style={{
-          background: scrolled || menuOpen ? 'rgba(8,8,8,0.92)' : 'transparent',
+          background: scrolled || menuOpen ? 'rgba(5,6,10,0.88)' : 'transparent',
           backdropFilter: scrolled || menuOpen ? 'blur(16px)' : 'none',
           borderBottom: scrolled ? '1px solid rgba(255,255,255,0.06)' : '1px solid transparent',
         }}
       >
         <nav className="max-w-6xl mx-auto px-6 md:px-10 h-[68px] flex items-center justify-between">
           {/* Logo */}
-          <a
+          <Link
             href="/"
-            className="text-white font-bold text-xl tracking-tight hover:opacity-70 transition-opacity duration-200"
-            style={{ fontFamily: 'var(--font-archivo), sans-serif' }}
+            aria-label="Ullas JS, home"
+            className="flex items-center gap-2.5 text-white font-bold text-xl tracking-tight hover:opacity-70 transition-opacity duration-200"
           >
-            ullas.
-          </a>
+            {/* the mark: a "U" drawn as a flowchart connector, same as app/icon.svg */}
+            <svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M20 16v20a12 12 0 0 0 24 0V18" fill="none" stroke="currentColor" strokeWidth="7" />
+              <rect x="13" y="8" width="14" height="14" fill="#2f6bff" />
+              <circle cx="44" cy="15" r="7.5" fill="#2f6bff" />
+            </svg>
+            ullas
+          </Link>
 
           {/* Desktop nav links */}
           <ul className="hidden md:flex items-center gap-8">
@@ -73,7 +80,7 @@ export function Nav() {
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className="text-sm text-[#666] hover:text-white transition-colors duration-200 tracking-wide cursor-pointer"
+                  className="text-sm text-mute hover:text-white transition-colors duration-200 tracking-wide cursor-pointer"
                 >
                   {link.label}
                 </a>
@@ -84,7 +91,7 @@ export function Nav() {
           {/* Desktop CTA */}
           <a
             href="/start-project"
-            className="hidden md:inline-flex text-sm px-4 py-2 rounded-full border border-[rgba(255,255,255,0.15)] text-[#ccc] hover:bg-white hover:text-black hover:border-white transition-all duration-200 cursor-pointer"
+            className="hidden md:inline-flex text-sm px-4 py-2 border border-[rgba(255,255,255,0.15)] text-[#ccc] hover:bg-white hover:text-black hover:border-white font-mono transition-all duration-200 cursor-pointer"
           >
             Get in touch
           </a>
@@ -138,9 +145,9 @@ export function Nav() {
                   <a
                     href={link.href}
                     onClick={closeMenu}
-                    className="flex items-center justify-between py-5 border-b border-[rgba(255,255,255,0.05)] text-2xl font-semibold text-[#666] hover:text-white transition-colors duration-200 cursor-pointer group"
+                    className="flex items-center justify-between py-5 border-b border-[rgba(255,255,255,0.05)] text-2xl font-semibold text-mute hover:text-white transition-colors duration-200 cursor-pointer group"
                     style={{
-                      fontFamily: 'var(--font-archivo), sans-serif',
+                      fontFamily: 'var(--font-bricolage), sans-serif',
                       transitionDelay: menuOpen ? `${i * 50}ms` : '0ms',
                     }}
                   >
@@ -162,7 +169,7 @@ export function Nav() {
             <a
               href="/start-project"
               onClick={closeMenu}
-              className="flex items-center justify-center w-full py-4 rounded-full bg-white text-black text-sm font-semibold hover:bg-[#c4f135] transition-colors duration-200 cursor-pointer"
+              className="flex items-center justify-center w-full py-4 bg-white text-black text-sm font-semibold hover:bg-[#2f6bff] transition-colors duration-200 cursor-pointer"
             >
               Get in touch
             </a>

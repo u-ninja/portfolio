@@ -1,0 +1,24 @@
+<!doctype html>
+<!-- Source for app/opengraph-image.png (1200x630) and, with ?icon, app/apple-icon.png (180x180). Rebuild with ./build.sh. -->
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=JetBrains+Mono&display=block" rel="stylesheet">
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  body { width: 1200px; height: 630px; background: #05060a; color: #f3f5f9; font-family: "Bricolage Grotesque", sans-serif; padding: 64px 72px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+  .top { display: flex; align-items: center; gap: 20px; font: 26px "JetBrains Mono", monospace; color: #86a8ff; }
+  .top img { width: 64px; height: 64px; }
+  h1 { font-size: 132px; font-weight: 800; font-variation-settings: "wdth" 75; line-height: .88; letter-spacing: -.012em; text-transform: uppercase; }
+  p { font-size: 34px; color: #8d93a6; }
+  p b { color: #f3f5f9; font-weight: 400; }
+  .icon body, body.icon { width: 180px; height: 180px; padding: 0; }
+  body.icon > * { display: none; }
+  body.icon > img.full { display: block; width: 180px; height: 180px; }
+  img.full { display: none; }
+</style>
+<body>
+  <img class="full" src="../app/icon.svg" alt="">
+  <div class="top"><img src="../app/icon.svg" alt=""> $ ullas --run</div>
+  <h1>I build things<br>that move the<br>world forward.</h1>
+  <p><b>Ullas JS</b>, Senior Software Engineer. Product builder, systems thinker.</p>
+  <script>if (location.search === '?icon') document.body.classList.add('icon');</script>
+</body>
