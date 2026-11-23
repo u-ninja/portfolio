@@ -70,6 +70,20 @@ export function ParticleField() {
     };
     const blue = sphere('#4d7dff', '#cfdcff');
     const pale = sphere('#dfe6f5', '#ffffff');
+    // Every ninth point is a code character instead of a ball, so the cloud reads as source code, still a 3D object.
+    const glyph = (ch: string, color: string) => {
+      const c = document.createElement('canvas');
+      c.width = c.height = 48;
+      const g = c.getContext('2d')!;
+      g.font = '700 38px ui-monospace, "JetBrains Mono", monospace';
+      g.textAlign = 'center';
+      g.textBaseline = 'middle';
+      g.fillStyle = color;
+      g.fillText(ch, 24, 26);
+      return c;
+    };
+    const chars = [...'{}<>/;=()[]01&$'];
+    const glyphs = chars.flatMap((ch) => [glyph(ch, '#86a8ff'), glyph(ch, '#dfe6f5')]);
 
     const small = window.innerWidth < 768;
     const n = small ? 1100 : 2600;
@@ -82,7 +96,8 @@ export function ParticleField() {
     const t0 = performance.now();
     let w = 0, h = 0, dpr = 1, raf = 0;
     let ry = 0, rx = 0.3, cx = 0.5, alpha = 0, scale = 1;
-    let mx = 0, my = 0, px = -999, py = -999;
+    let mx = 0, my = 0, px = -999, py = -999, lastY = window.scrollY;
+    let hot = -1, hotZoom = 0; // the one point under the pointer, and how far it has zoomed
 
     const resize = () => {
       dpr = Math.min(window.devicePixelRatio || 1, small ? 1.5 : 2);
@@ -121,8 +136,14 @@ export function ParticleField() {
       const ox = cx * w * dpr;
       const oy = (small ? 0.4 : 0.5) * h * dpr;
 
+      // scrolling shoves the cloud along (each point by its own amount), then the springs pull it back
+      const dY = still ? 0 : Math.max(-150, Math.min(150, window.scrollY - lastY));
+      lastY = window.scrollY;
+
       ctx.clearRect(0, 0, cv.width, cv.height);
       ctx.globalCompositeOperation = 'lighter';
+      let cand = -1, bestScore = 1;
+      let hotDraw: (() => void) | null = null;
       for (let i = 0; i < n; i++) {
         const k = i * 3;
         if (still) {
@@ -132,6 +153,7 @@ export function ParticleField() {
           const stiff = 0.012 + (i % 7) * 0.003;
           for (let j = k; j < k + 3; j++) {
             vel[j] = vel[j] * 0.88 + (target[j] - pos[j]) * stiff;
+            if (j === k + 1) vel[j] += 0.0009 - dY * 0.00045 * (0.4 + (i % 7) / 7); // gravity sag, and the scroll shove
             pos[j] += vel[j];
           }
         }
@@ -144,20 +166,59 @@ export function ParticleField() {
         let sx = ox + x1 * S * persp;
         let sy = oy + y2 * S * persp;
         const dx = sx / dpr - px, dy = sy / dpr - py, dd = dx * dx + dy * dy;
-        if (dd < 14400 && dd > 1) {
-          // the pointer parts the cloud
-          const f = ((120 - Math.sqrt(dd)) * 0.35 * dpr) / Math.sqrt(dd);
-          sx += dx * f;
-          sy += dy * f;
-        }
+        // the point closest to the pointer is the one that zooms; code characters are easier to catch
+        const reach = i % 9 === 0 ? 34 : 20;
+        const score = dd / (reach * reach);
+        if (score < bestScore) { bestScore = score; cand = i; }
+        const z = i === hot ? hotZoom : 0;
         if (i < HUBS) {
           hub[i * 2] = sx;
           hub[i * 2 + 1] = sy;
         }
-        const size = (i % 5 === 0 ? 2.6 : 1.6) * persp * dpr;
-        ctx.globalAlpha = alpha * Math.min(1, Math.max(0.12, 0.25 + (1.2 - z2) * 0.45));
+        const size = (i % 5 === 0 ? 3.6 : 2.3) * persp * dpr * (1 + z * 3);
+        ctx.globalAlpha = alpha * Math.min(1, Math.max(0.2, 0.35 + (1.2 - z2) * 0.45));
         const d = size * 1.5;
-        ctx.drawImage(i % 4 === 0 ? blue : pale, sx - d / 2, sy - d / 2, d, d);
+        const gi = (i * 7) % glyphs.length;
+        const isGlyph = i % 9 === 0;
+        if (i === hot) {
+          // The zoomed point is redrawn as vector art at its real size (a stretched sprite would go soft), on top of the rest.
+          hotDraw = () => {
+            ctx.globalCompositeOperation = 'source-over';
+            if (isGlyph) {
+              ctx.font = `700 ${d * 3.4 * (1 + z * 0.9) * 0.79}px ui-monospace, "JetBrains Mono", monospace`;
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.shadowColor = '#4d7dff';
+              ctx.shadowBlur = 14 * dpr * z;
+              ctx.fillStyle = gi % 2 ? '#ffffff' : '#9db9ff';
+              ctx.fillText(chars[gi >> 1], sx, sy);
+              ctx.shadowBlur = 0;
+            } else {
+              const r = d / 2;
+              const g = ctx.createRadialGradient(sx - r * 0.3, sy - r * 0.35, r * 0.08, sx, sy, r);
+              const blueDot = i % 4 === 0;
+              g.addColorStop(0, blueDot ? '#cfdcff' : '#ffffff');
+              g.addColorStop(0.5, blueDot ? '#4d7dff' : '#dfe6f5');
+              g.addColorStop(1, blueDot ? '#16307a' : '#6b7285');
+              ctx.fillStyle = g;
+              ctx.beginPath();
+              ctx.arc(sx, sy, r, 0, TAU);
+              ctx.fill();
+            }
+            ctx.globalCompositeOperation = 'lighter';
+          };
+        } else if (isGlyph) {
+          const gd = d * 3.4;
+          ctx.drawImage(glyphs[gi], sx - gd / 2, sy - gd / 2, gd, gd);
+        } else ctx.drawImage(i % 4 === 0 ? blue : pale, sx - d / 2, sy - d / 2, d, d);
+      }
+
+      if (cand >= 0 && cand !== hot) { hot = cand; hotZoom = 0; }
+      hotZoom += ((cand >= 0 ? 1 : 0) - hotZoom) * 0.18;
+      if (cand < 0 && hotZoom < 0.02) hot = -1;
+      if (hotDraw) {
+        ctx.globalAlpha = Math.min(1, 0.55 + hotZoom * 0.45);
+        (hotDraw as () => void)();
       }
 
       ctx.globalAlpha = alpha * 0.35;

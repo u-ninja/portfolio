@@ -24,7 +24,7 @@ export function Statements() {
       id="story"
       ref={ref}
       data-shape="lattice"
-      data-alpha="0.42" data-scale="0.62"
+      data-alpha="0.85" data-scale="0.72"
       data-stops={statements.map((_, i) => i / (statements.length - 1)).join(',')}
       aria-label="What I do"
       className="relative"
