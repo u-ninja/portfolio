@@ -53,6 +53,24 @@ export function ParticleField() {
     const ctx = cv?.getContext('2d');
     if (!cv || !ctx) return;
 
+    // Shaded sphere sprites, drawn once; stamping an image is far cheaper than thousands of arcs per frame.
+    const sphere = (base: string, light: string) => {
+      const c = document.createElement('canvas');
+      c.width = c.height = 32;
+      const g = c.getContext('2d')!;
+      const grad = g.createRadialGradient(11, 10, 1, 16, 16, 16);
+      grad.addColorStop(0, light);
+      grad.addColorStop(0.45, base);
+      grad.addColorStop(1, 'rgba(0,0,0,0.55)');
+      g.fillStyle = grad;
+      g.beginPath();
+      g.arc(16, 16, 15.5, 0, Math.PI * 2);
+      g.fill();
+      return c;
+    };
+    const blue = sphere('#4d7dff', '#cfdcff');
+    const pale = sphere('#dfe6f5', '#ffffff');
+
     const small = window.innerWidth < 768;
     const n = small ? 1100 : 2600;
     const shapes = buildShapes(n);
@@ -138,8 +156,8 @@ export function ParticleField() {
         }
         const size = (i % 5 === 0 ? 2.6 : 1.6) * persp * dpr;
         ctx.globalAlpha = alpha * Math.min(1, Math.max(0.12, 0.25 + (1.2 - z2) * 0.45));
-        ctx.fillStyle = i % 4 === 0 ? '#4d7dff' : '#dfe6f5';
-        ctx.fillRect(sx, sy, size, size);
+        const d = size * 1.5;
+        ctx.drawImage(i % 4 === 0 ? blue : pale, sx - d / 2, sy - d / 2, d, d);
       }
 
       ctx.globalAlpha = alpha * 0.35;
