@@ -129,14 +129,12 @@ input:focus-visible, textarea:focus-visible { outline: none; }
   .arch .node-in { --on: 1 !important; }
 }
 
-/* ── Cursor ring: size and shape are driven by physics in Cursor.tsx; this is only the look ── */
-.cursor { position: fixed; left: 0; top: 0; z-index: 60; opacity: 0; pointer-events: none; border: 1.5px solid var(--color-signal-soft); transition: opacity 0.25s, background 0.25s, border-color 0.25s; will-change: transform; }
-.cursor[data-ctx='target'] { border-color: var(--color-paper); background: rgb(134 168 255 / 0.12); }
-.cursor[data-ctx='text'] { border-color: transparent; background: var(--color-signal-soft); }
-.cursor[data-ctx='story'], .cursor[data-ctx='contact'] { background: #fff; border-color: #fff; mix-blend-mode: difference; }
-.cursor[data-ctx='work'] { background: rgb(47 107 255 / 0.18); }
-.cursor[data-ctx='systems'] { border-style: dashed; }
-.cursor[data-ctx='play'] { background: var(--color-signal-soft); border-color: transparent; }
+/* ── Crosshair cursor: position and arm spread are driven by Cursor.tsx; this is only the look ── */
+.cursor { position: fixed; left: 0; top: 0; z-index: 60; opacity: 0; pointer-events: none; mix-blend-mode: difference; transition: opacity 0.2s; will-change: transform; }
+.cursor i { position: absolute; background: #fff; }
+.cursor-dot { left: -1.5px; top: -1.5px; width: 3px; height: 3px; border-radius: 50%; }
+.cursor-arm { left: -0.75px; top: -9px; width: 1.5px; height: 9px; transform-origin: 50% 100%; }
+html.has-cursor, html.has-cursor *:not(input):not(textarea) { cursor: none !important; }
 
 /* ── Bento tiles: hairline panels with a pointer-following spotlight ───── */
 .bento-tile { position: relative; overflow: hidden; padding: 1.75rem; background: var(--color-panel); border: 1px solid var(--color-line); border-radius: 1.25rem; transition: border-color 0.3s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -176,7 +174,6 @@ a:hover .swap > span, a:focus-visible .swap > span { transform: translateY(-100%
 .fill-row:hover::before, .fill-row:focus-visible::before { transform: scaleY(1); }
 .fill-row .text-mute, .fill-row .text-signal-soft { transition: color 0.3s; }
 .fill-row:hover .text-mute, .fill-row:hover .text-signal-soft, .fill-row:focus-visible .text-mute, .fill-row:focus-visible .text-signal-soft { color: rgb(255 255 255 / 0.9); }
-.cursor[data-ctx='hide'] { opacity: 0 !important; }
 @media (prefers-reduced-motion: reduce) { .fill-row::before { transition: none; } }
 
 /* ── Physics pit: chips are positioned by Pit.tsx; without motion they wrap as a plain row ── */
