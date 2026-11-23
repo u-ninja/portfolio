@@ -28,7 +28,7 @@ export function Statements() {
       data-stops={statements.map((_, i) => i / (statements.length - 1)).join(',')}
       aria-label="What I do"
       className="relative"
-      style={{ height: `${(statements.length - 1) * 70 + 100}vh` }}
+      style={{ height: `${(statements.length - 1) * 100 + 100}vh` }}
     >
       <div className="sticky top-0 h-svh overflow-hidden" style={{ perspective: '900px' }}>
         {statements.map((s) => {

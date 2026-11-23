@@ -1,5 +1,6 @@
 import { StepScroll } from './components/StepScroll';
 import { Cursor } from './components/Cursor';
+import { Preloader } from './components/Preloader';
 import { Nav } from './components/Nav';
 import { ParticleField } from './scenes/ParticleField';
 import { FlowRail } from './scenes/FlowRail';
@@ -16,6 +17,7 @@ import { Invitation } from './scenes/Invitation';
 export default function Home() {
   return (
     <>
+      <Preloader />
       <ParticleField />
       <Nav />
       <StepScroll />

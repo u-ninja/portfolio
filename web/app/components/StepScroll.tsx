@@ -5,8 +5,8 @@ import { reducedMotion } from '../lib/scroll';
 // Pinned scenes list their beats as `data-stops` (scroll progress 0→1). Inside one, a wheel tick,
 // swipe or key press glides to the next beat, and a pause settles on the nearest, so a scene is never left half-played.
 const EPS = 0.01;
-const DUR = 750;
-const ease = (t: number) => (t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2);
+const DUR = 1300;
+const ease = (t: number) => (t < 0.5 ? 16 * t ** 5 : 1 - (-2 * t + 2) ** 5 / 2); // quintic: soft start, long gentle landing
 
 type Pin = { top: number; range: number; p: number; stops: number[] };
 

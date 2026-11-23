@@ -151,3 +151,20 @@ input:focus-visible, textarea:focus-visible { outline: none; }
 @keyframes fill-in { from { width: 0; } }
 @keyframes hop { from { left: 0; } 50% { left: calc(100% - 5px); } to { left: 0; } }
 @media (prefers-reduced-motion: reduce) { .bento-bars span, .bento-fill, .bento-link::after { animation: none; } .bento-tile { transition: border-color 0.3s; } .bento-tile:hover { transform: none; } }
+
+/* Configurator steps slide in from the right as you advance */
+.step-in { animation: step-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes step-in { from { opacity: 0; transform: translateX(28px); } }
+@media (prefers-reduced-motion: reduce) { .step-in { animation: none; } }
+
+/* ── Link text swap: the label slides up and an identical one rises in (hover or focus) ── */
+.swap { position: relative; display: inline-block; overflow: hidden; vertical-align: bottom; }
+.swap > span { display: block; transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1); }
+.swap > span + span { position: absolute; left: 0; top: 100%; }
+a:hover .swap > span, a:focus-visible .swap > span { transform: translateY(-100%); }
+@media (prefers-reduced-motion: reduce) { .swap > span { transition: none; } a:hover .swap > span, a:focus-visible .swap > span { transform: none; } }
+
+/* ── Page-level reveal: sections fade up as they enter ── */
+.reveal { animation: reveal-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; animation-timeline: view(); animation-range: entry 0% entry 45%; }
+@keyframes reveal-up { from { opacity: 0; transform: translateY(40px); } }
+@media (prefers-reduced-motion: reduce) { .reveal { animation: none; } }
