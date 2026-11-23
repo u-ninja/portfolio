@@ -1,35 +1,19 @@
-import { StepScroll } from './components/StepScroll';
-import { Preloader } from './components/Preloader';
 import { Nav } from './components/Nav';
-import { ParticleField } from './scenes/ParticleField';
-import { FlowRail } from './scenes/FlowRail';
 import { Hero } from './scenes/Hero';
-import { Statements } from './scenes/Statements';
-import { Universe } from './scenes/Universe';
-import { Projects } from './scenes/Projects';
-import { Bento } from './scenes/Bento';
-import { Architecture } from './scenes/Architecture';
+import { Work } from './scenes/Work';
+import { Numbers } from './scenes/Numbers';
 import { Experience } from './scenes/Experience';
-import { Playground } from './scenes/Playground';
 import { Invitation } from './scenes/Invitation';
 
 export default function Home() {
   return (
     <>
-      <Preloader />
-      <ParticleField />
       <Nav />
-      <StepScroll />
-      <FlowRail />
       <main className="relative z-10">
         <Hero />
-        <Statements />
-        <Universe />
-        <Projects />
-        <Bento />
-        <Architecture />
+        <Work />
+        <Numbers />
         <Experience />
-        <Playground />
         <Invitation />
       </main>
     </>

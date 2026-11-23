@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Magnetic } from '../components/Magnetic';
 import { WHATSAPP_URL, WhatsAppIcon } from '../components/WhatsApp';
 
 const links = [
@@ -19,11 +20,15 @@ export function Invitation() {
       className="relative flex min-h-svh flex-col justify-between px-6 pt-32 md:px-10"
     >
       <div className="mx-auto w-full max-w-6xl">
-        <p className="mb-6 font-mono text-sm text-signal-soft">return contact;</p>
+        <p className="mb-6 font-mono text-xs text-mute">Contact</p>
         <h2 className="display text-[clamp(2.8rem,9.5vw,9rem)]">
           Have a challenging problem?
-          <span className="mt-[0.25em] block text-mute">Let’s build something remarkable.</span>
+          <em className="mt-[0.15em] block">Let’s build something good.</em>
         </h2>
+
+        <Magnetic>
+          <a href="mailto:hello@teeme.org" className="display mt-12 inline-block text-[clamp(1.8rem,5vw,4.5rem)] underline decoration-line underline-offset-[0.18em] transition-colors hover:decoration-signal-soft">hello@teeme.org</a>
+        </Magnetic>
 
         <div className="mt-12 flex flex-wrap gap-3">
           <Link href="/start-project" className="btn btn-solid">Start a project</Link>

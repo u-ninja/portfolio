@@ -8,7 +8,8 @@
   --color-mute: #8d93a6;
   --color-signal: #2f6bff;
   --color-signal-soft: #86a8ff;
-  --font-display: var(--font-bricolage), sans-serif;
+  --font-display: var(--font-geist), sans-serif;
+  --font-serif: var(--font-instrument), Georgia, serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
 
@@ -31,14 +32,14 @@ input:focus-visible, textarea:focus-visible { outline: none; }
 ::-webkit-scrollbar-track { background: var(--color-ink); }
 ::-webkit-scrollbar-thumb { background: #232838; }
 
-/* Condensed display cut of Bricolage: the headline voice of the site */
+/* Serif display voice; <em> inside turns italic and muted */
 .display {
-  font-variation-settings: "wdth" 75;
-  font-weight: 800;
-  line-height: 0.88;
-  letter-spacing: -0.012em;
-  text-transform: uppercase;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
 }
+.display em { color: var(--color-mute); }
 
 .btn {
   display: inline-flex; align-items: center; gap: 0.6rem;
@@ -177,3 +178,9 @@ a:hover .swap > span, a:focus-visible .swap > span { transform: translateY(-100%
 .fill-row:hover .text-mute, .fill-row:hover .text-signal-soft, .fill-row:focus-visible .text-mute, .fill-row:focus-visible .text-signal-soft { color: rgb(255 255 255 / 0.9); }
 .cursor[data-ctx='hide'] { opacity: 0 !important; }
 @media (prefers-reduced-motion: reduce) { .fill-row::before { transition: none; } }
+
+/* ── Physics pit: chips are positioned by Pit.tsx; without motion they wrap as a plain row ── */
+.pit { display: flex; flex-wrap: wrap; align-content: flex-end; gap: 0.5rem; touch-action: pan-y; cursor: grab; }
+.pit-chip { position: absolute; left: 0; top: 0; padding: 0.55rem 1.1rem; border-radius: 999px; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-mono); font-size: 0.8125rem; white-space: nowrap; will-change: transform; transform: translate(-200px, -200px); }
+.pit:active { cursor: grabbing; }
+@media (prefers-reduced-motion: reduce) { .pit-chip { position: static; transform: none; } }

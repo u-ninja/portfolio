@@ -69,18 +69,4 @@ export const projects: Project[] = [
       { h: 'How it runs', body: 'A FastAPI and React app shows the portfolio, backtests and live server health. It runs on a hardened VM behind Cloudflare Access and Tailscale.' },
     ],
   },
-  {
-    slug: 'blacksite',
-    title: 'Blacksite',
-    tagline: 'A tactical top-down shooter prototype, built to learn how game systems fit together.',
-    role: 'Solo developer', year: '2026',
-    tech: ['Godot 4', 'GDScript', 'Raycasting', 'State machines', 'Headless tests'],
-    links: [],
-    steps: [
-      { h: 'What it is', body: 'Round-based, Blue against Red, first to five. You only see an enemy while your operator actually can, which makes every corner a decision.' },
-      { h: 'Two layers of sight', body: 'Something is visible when it is inside either awareness layer and a ray to it is clear. Peripheral vision is wide and short. Weapon sight is narrow and far, so it changes with the gun.' },
-      { h: 'Physics in layers', body: 'Movement, bullets, vision and actors each get their own collision layer. Low cover stops bullets but not sight, simply by leaving the vision layer off.' },
-      { h: 'Tested like software', body: 'Gameplay rules run as headless tests that exit with a failure the moment something breaks, the same way I would test a service.' },
-    ],
-  },
 ];

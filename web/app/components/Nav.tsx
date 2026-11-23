@@ -6,7 +6,6 @@ import { WHATSAPP_URL, WhatsAppIcon } from './WhatsApp';
 const links = [
   { label: 'Skills', href: '/skills', fn: 'traverse(skills)' },
   { label: 'Work', href: '/work', fn: 'ship(projects)' },
-  { label: 'Systems', href: '/#systems', fn: 'explain(system)' },
   { label: 'Experience', href: '/#experience', fn: 'git log' },
   { label: 'Contact', href: '/#contact', fn: 'return contact' },
 ];

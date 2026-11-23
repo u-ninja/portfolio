@@ -6,7 +6,7 @@ import { projects } from '../data/projects';
 
 export const metadata: Metadata = {
   title: 'Work — Ullas JS',
-  description: 'Selected projects: Teeme, a config-driven ERP, QluePrint, NinjaTrade and Blacksite.',
+  description: 'Selected projects: Teeme, a config-driven ERP, QluePrint and NinjaTrade.',
 };
 
 export default function Work() {
