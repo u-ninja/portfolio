@@ -136,3 +136,18 @@ input:focus-visible, textarea:focus-visible { outline: none; }
 .cursor[data-ctx='work'] { background: rgb(47 107 255 / 0.18); }
 .cursor[data-ctx='systems'] { border-style: dashed; }
 .cursor[data-ctx='play'] { background: var(--color-signal-soft); border-color: transparent; }
+
+/* ── Bento tiles: hairline panels with a pointer-following spotlight ───── */
+.bento-tile { position: relative; overflow: hidden; padding: 1.75rem; background: var(--color-panel); border: 1px solid var(--color-line); border-radius: 1.25rem; transition: border-color 0.3s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+.bento-tile::before { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.3s; background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(134 168 255 / 0.13), transparent 65%); }
+.bento-tile:hover { border-color: rgb(134 168 255 / 0.4); transform: translateY(-3px); }
+.bento-tile:hover::before { opacity: 1; }
+.bento-tile > * { position: relative; }
+.bento-bars span { height: var(--h); transform-origin: bottom; border-radius: 3px 3px 0 0; animation: bar-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: calc(var(--i) * 60ms); animation-timeline: view(); animation-range: entry 0% entry 70%; }
+.bento-bars span:last-child { background: var(--color-signal-soft); }
+.bento-fill { width: 40%; animation: fill-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) both; animation-timeline: view(); animation-range: entry 10% entry 80%; }
+.bento-link::after { content: ''; position: absolute; top: -2px; left: 0; width: 5px; height: 5px; background: var(--color-signal-soft); animation: hop 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+@keyframes bar-rise { from { transform: scaleY(0); } }
+@keyframes fill-in { from { width: 0; } }
+@keyframes hop { from { left: 0; } 50% { left: calc(100% - 5px); } to { left: 0; } }
+@media (prefers-reduced-motion: reduce) { .bento-bars span, .bento-fill, .bento-link::after { animation: none; } .bento-tile { transition: border-color 0.3s; } .bento-tile:hover { transform: none; } }

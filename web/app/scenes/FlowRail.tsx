@@ -7,6 +7,7 @@ const steps = [
   { id: 'story', fn: 'narrate()', shape: 'rect' },
   { id: 'skills', fn: 'traverse(skills)', shape: 'rect' },
   { id: 'work', fn: 'ship(projects)', shape: 'rect' },
+  { id: 'numbers', fn: 'stats()', shape: 'rect' },
   { id: 'systems', fn: 'explain(system)', shape: 'rect' },
   { id: 'experience', fn: 'git log', shape: 'rect' },
   { id: 'play', fn: 'curious?', shape: 'diamond' },

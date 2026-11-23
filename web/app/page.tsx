@@ -7,6 +7,7 @@ import { Hero } from './scenes/Hero';
 import { Statements } from './scenes/Statements';
 import { Universe } from './scenes/Universe';
 import { Projects } from './scenes/Projects';
+import { Bento } from './scenes/Bento';
 import { Architecture } from './scenes/Architecture';
 import { Experience } from './scenes/Experience';
 import { Playground } from './scenes/Playground';
@@ -25,6 +26,7 @@ export default function Home() {
         <Statements />
         <Universe />
         <Projects />
+        <Bento />
         <Architecture />
         <Experience />
         <Playground />
