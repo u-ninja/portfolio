@@ -6,7 +6,7 @@ import { reducedMotion } from '../lib/scroll';
 // Page change: a quick pixel wipe covers the screen, the route swaps underneath, then it clears.
 // Each cell flips by its distance from the click (plus a little noise): the cover spreads out from where you clicked,
 // and the clearing opens up from the same point.
-const CELL = 36;
+const CELL = 14;
 const IN = 380, OUT = 520, MIN_HOLD = 100, GIVE_UP = 4000;
 const ease = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
 const clamp = (v: number) => Math.min(1, Math.max(0, v));
