@@ -7,7 +7,7 @@ import { reducedMotion } from '../lib/scroll';
 // The canvas holds one pixel per cell and is scaled up unsmoothed, so a QHD screen costs about one ImageData upload per frame.
 // Arrival time = distance from the click bent by fractal noise, so the front fingers outward like a spreading infection.
 const CELL = 3; // device pixels per cell
-const IN = 950, OUT = 1150, MIN_HOLD = 120, GIVE_UP = 4000;
+const IN = 1800, OUT = 2200, MIN_HOLD = 200, GIVE_UP = 4000;
 const EDGE = 0.04; // width of the glowing front, in arrival-time units
 const INK = 0xff0a0605, HOT = 0xffffe0cf, MID = 0xffffa886, LOW = 0xffff6b2f; // ABGR
 const ease = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
