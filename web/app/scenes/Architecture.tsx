@@ -86,7 +86,7 @@ export function Architecture() {
   const node = all.find((n) => n.id === open)!;
 
   return (
-    <section id="systems" ref={ref} data-shape="layers" data-alpha="0.3" data-x="0.4" data-scale="0.85" className="arch relative lg:h-[300vh]">
+    <section id="systems" ref={ref} data-shape="layers" data-alpha="0.3" data-x="0.4" data-scale="0.85" data-stops="0,0.25,0.5,0.75,1" className="arch relative lg:h-[300vh]">
       <div className="flex flex-col justify-center px-6 py-24 md:px-10 lg:sticky lg:top-0 lg:h-svh lg:py-20">
         <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
           <div className="flex flex-col justify-between gap-8">

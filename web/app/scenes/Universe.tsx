@@ -95,6 +95,7 @@ export function Universe() {
       ref={ref}
       data-shape="wave"
       data-alpha="0.45"
+      data-stops={[0, ...trace.map((_, k) => (k === trace.length - 1 ? 1 : (k + 0.5) / trace.length))].join(',')}
       className="relative"
       style={{ height: `${trace.length * 55 + 100}vh` }}
     >

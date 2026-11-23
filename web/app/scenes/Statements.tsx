@@ -25,6 +25,7 @@ export function Statements() {
       ref={ref}
       data-shape="lattice"
       data-alpha="0.42" data-scale="0.62"
+      data-stops={[0, ...statements.map((_, i) => (i === statements.length - 1 ? 1 : (i + 0.6) / statements.length))].join(',')}
       aria-label="What I do"
       className="relative"
       style={{ height: `${statements.length * 85 + 100}vh` }}
