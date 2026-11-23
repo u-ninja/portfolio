@@ -60,7 +60,8 @@ input:focus-visible, textarea:focus-visible { outline: none; }
   transform-origin: left center;
 }
 .line-mask { display: block; overflow: hidden; padding-block: 0.06em; margin-block: -0.06em; }
-.line-mask > span { display: block; animation: line-up 0.9s steps(9, end) both; animation-delay: calc(var(--d) * 0.12s + 0.25s); }
+/* each line steps up into place, then glitches once (no fill, so the glitch's first frame only applies while it runs) */
+.line-mask > span { display: block; animation: line-up 0.9s steps(9, end) both, glitch-text 0.8s steps(1, end); animation-delay: calc(var(--d) * 0.12s + 0.25s), calc(var(--d) * 0.12s + 1.25s); }
 .fade-in { animation: fade-in 0.9s ease both; animation-delay: calc(var(--d, 0) * 0.12s + 0.25s); }
 @keyframes line-up { from { transform: translateY(108%); } }
 @keyframes fade-in { from { opacity: 0; } }
