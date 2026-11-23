@@ -81,7 +81,7 @@ export function Universe() {
   const ref = useRef<HTMLElement>(null);
   const [step, setStep] = useState(0);
   const [pick, setPick] = useState<{ step: number; id: Id } | null>(null);
-  const onScroll = useCallback((p: number) => setStep(Math.min(trace.length - 1, Math.floor(p * trace.length))), []);
+  const onScroll = useCallback((p: number) => setStep(Math.min(trace.length - 1, Math.round(p * (trace.length - 1)))), []);
   useScrollProgress(ref, onScroll);
 
   const now = trace[step];
@@ -95,9 +95,9 @@ export function Universe() {
       ref={ref}
       data-shape="wave"
       data-alpha="0.45"
-      data-stops={[0, ...trace.map((_, k) => (k === trace.length - 1 ? 1 : (k + 0.5) / trace.length))].join(',')}
+      data-stops={trace.map((_, k) => k / (trace.length - 1)).join(',')}
       className="relative"
-      style={{ height: `${trace.length * 55 + 100}vh` }}
+      style={{ height: `${(trace.length - 1) * 60 + 100}vh` }}
     >
       <div className="sticky top-0 flex min-h-svh flex-col justify-center px-6 pb-8 pt-24 md:px-10">
         <div className="mx-auto w-full max-w-6xl">

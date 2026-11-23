@@ -14,7 +14,7 @@ export function Statements() {
   const ref = useRef<HTMLElement>(null);
   const onScroll = useCallback((p: number) => {
     ref.current?.querySelectorAll<HTMLElement>('.stmt').forEach((el, i) => {
-      el.style.setProperty('--t', (p * statements.length - i).toFixed(4));
+      el.style.setProperty('--t', (p * (statements.length - 1) + 0.6 - i).toFixed(4));
     });
   }, []);
   useScrollProgress(ref, onScroll);
@@ -25,10 +25,10 @@ export function Statements() {
       ref={ref}
       data-shape="lattice"
       data-alpha="0.42" data-scale="0.62"
-      data-stops={[0, ...statements.map((_, i) => (i === statements.length - 1 ? 1 : (i + 0.6) / statements.length))].join(',')}
+      data-stops={statements.map((_, i) => i / (statements.length - 1)).join(',')}
       aria-label="What I do"
       className="relative"
-      style={{ height: `${statements.length * 85 + 100}vh` }}
+      style={{ height: `${(statements.length - 1) * 70 + 100}vh` }}
     >
       <div className="sticky top-0 h-svh overflow-hidden" style={{ perspective: '900px' }}>
         {statements.map((s) => {

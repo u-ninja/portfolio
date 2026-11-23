@@ -127,3 +127,12 @@ input:focus-visible, textarea:focus-visible { outline: none; }
   .packet { animation: none; display: none; }
   .arch .node-in { --on: 1 !important; }
 }
+
+/* ── Cursor ring: size and shape are driven by physics in Cursor.tsx; this is only the look ── */
+.cursor { position: fixed; left: 0; top: 0; z-index: 60; opacity: 0; pointer-events: none; border: 1.5px solid var(--color-signal-soft); transition: opacity 0.25s, background 0.25s, border-color 0.25s; will-change: transform; }
+.cursor[data-ctx='target'] { border-color: var(--color-paper); background: rgb(134 168 255 / 0.12); }
+.cursor[data-ctx='text'] { border-color: transparent; background: var(--color-signal-soft); }
+.cursor[data-ctx='story'], .cursor[data-ctx='contact'] { background: #fff; border-color: #fff; mix-blend-mode: difference; }
+.cursor[data-ctx='work'] { background: rgb(47 107 255 / 0.18); }
+.cursor[data-ctx='systems'] { border-style: dashed; }
+.cursor[data-ctx='play'] { background: var(--color-signal-soft); border-color: transparent; }

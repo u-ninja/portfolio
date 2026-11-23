@@ -86,7 +86,7 @@ export function Architecture() {
   const node = all.find((n) => n.id === open)!;
 
   return (
-    <section id="systems" ref={ref} data-shape="layers" data-alpha="0.3" data-x="0.4" data-scale="0.85" data-stops="0,0.25,0.5,0.75,1" className="arch relative lg:h-[300vh]">
+    <section id="systems" ref={ref} data-shape="layers" data-alpha="0.3" data-x="0.4" data-scale="0.85" data-stops={layers.map((_, i) => i / (layers.length - 1)).join(',')} className="arch relative lg:h-[240vh]">
       <div className="flex flex-col justify-center px-6 py-24 md:px-10 lg:sticky lg:top-0 lg:h-svh lg:py-20">
         <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
           <div className="flex flex-col justify-between gap-8">
@@ -105,7 +105,7 @@ export function Architecture() {
 
           <ol className="flex flex-col">
             {layers.map((layer, i) => (
-              <li key={layer.name} className="node-in" style={{ '--on': `clamp(0, calc(var(--p, 1) * ${layers.length + 1} - ${i}), 1)` } as React.CSSProperties}>
+              <li key={layer.name} className="node-in" style={{ '--on': `clamp(0, calc(var(--p, 1) * ${layers.length - 1} + 1 - ${i}), 1)` } as React.CSSProperties}>
                 {i > 0 && (
                   <div aria-hidden="true" className="relative mx-auto h-7 w-px bg-signal lg:h-9">
                     <span className="packet absolute -left-[3px] top-0 h-[7px] w-[7px] bg-signal-soft" style={{ animationDelay: `${i * 0.35}s` }} />

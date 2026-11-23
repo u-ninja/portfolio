@@ -1,4 +1,5 @@
 import { StepScroll } from './components/StepScroll';
+import { Cursor } from './components/Cursor';
 import { Nav } from './components/Nav';
 import { ParticleField } from './scenes/ParticleField';
 import { FlowRail } from './scenes/FlowRail';
@@ -17,6 +18,7 @@ export default function Home() {
       <ParticleField />
       <Nav />
       <StepScroll />
+      <Cursor />
       <FlowRail />
       <main className="relative z-10">
         <Hero />
