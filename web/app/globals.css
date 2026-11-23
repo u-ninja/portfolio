@@ -181,3 +181,4 @@ a:hover .swap > span, a:focus-visible .swap > span { transform: translateY(-100%
 .pit-chip { position: absolute; left: 0; top: 0; padding: 0.55rem 1.1rem; border-radius: 999px; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-mono); font-size: 0.8125rem; white-space: nowrap; will-change: transform; transform: translate(-200px, -200px); }
 .pit:active { cursor: grabbing; }
 @media (prefers-reduced-motion: reduce) { .pit-chip { position: static; transform: none; } }
+html.shooting, html.shooting * { user-select: none; -webkit-user-select: none; }

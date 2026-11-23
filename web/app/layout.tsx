@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Cursor } from "./components/Cursor";
+import { Shots } from "./components/Shots";
 import { PageTransition } from "./components/PageTransition";
 
 const geist = Geist({ variable: "--font-geist", subsets: ["latin"] });
@@ -24,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${geist.variable} ${serif.variable} ${jetbrains.variable}`}>
       <body className="min-h-screen antialiased">{children}
+        <Shots />
         <Cursor />
         <PageTransition />
       </body>
