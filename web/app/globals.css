@@ -71,7 +71,7 @@ input:focus-visible, textarea:focus-visible { outline: none; }
 /* ── Kinetic statements: one --t per statement, set from scroll ────────── */
 .stmt {
   --t: -1;
-  --x: clamp(0, calc((var(--t) - 0.75) * 4), 1);
+  --x: clamp(0, calc((var(--t) - 0.7) * 2.5), 1);
   position: absolute; inset: 0;
   display: grid; place-content: center; justify-items: center; text-align: center;
   padding-inline: 1.5rem;
@@ -81,13 +81,13 @@ input:focus-visible, textarea:focus-visible { outline: none; }
 }
 .stmt:last-of-type { --x: 0; }
 .stmt .w { display: inline-block; white-space: nowrap; }
-.stmt .ch { --e: clamp(0, calc(var(--t) * 5 - var(--i) * 0.07), 1); display: inline-block; will-change: transform, opacity; }
+.stmt .ch { --e: clamp(0, calc((var(--t) + 0.25 - var(--i) * 0.012) * 2.4), 1); display: inline-block; will-change: transform, opacity; }
 .stmt-rise .w { overflow: hidden; padding-block: 0.08em; margin-block: -0.08em; }
 .stmt-rise .ch { transform: translateY(calc((1 - var(--e)) * 112%)); }
 .stmt-depth .ch { transform: scale(calc(3.2 - var(--e) * 2.2)); opacity: var(--e); filter: blur(calc((1 - var(--e)) * 10px)); }
 .stmt-wipe .ch { clip-path: inset(0 calc((1 - var(--e)) * 100%) 0 0); transform: translateX(calc((1 - var(--e)) * -0.35em)); }
 .stmt-type .ch { opacity: clamp(0, calc((var(--e) - 0.5) * 1000), 1); }
-.stmt-note { opacity: clamp(0, calc((var(--t) - 0.3) * 5), 1); transform: translateY(calc((1 - clamp(0, calc((var(--t) - 0.3) * 5), 1)) * 12px)); }
+.stmt-note { opacity: clamp(0, calc((var(--t) - 0.2) * 3), 1); transform: translateY(calc((1 - clamp(0, calc((var(--t) - 0.2) * 3), 1)) * 12px)); }
 
 /* ── Flowchart pieces ─────────────────────────────────────────────────── */
 .edge { stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--draw, 1)); transition: stroke 0.3s, opacity 0.3s; }
@@ -168,3 +168,12 @@ a:hover .swap > span, a:focus-visible .swap > span { transform: translateY(-100%
 .reveal { animation: reveal-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; animation-timeline: view(); animation-range: entry 0% entry 45%; }
 @keyframes reveal-up { from { opacity: 0; transform: translateY(40px); } }
 @media (prefers-reduced-motion: reduce) { .reveal { animation: none; } }
+
+/* Rows that flood with colour on hover; the cursor ring and the native pointer are hidden over them */
+.fill-row { position: relative; isolation: isolate; overflow: hidden; cursor: none; }
+.fill-row::before { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--color-signal); transform: scaleY(0); transform-origin: bottom; transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1); }
+.fill-row:hover::before, .fill-row:focus-visible::before { transform: scaleY(1); }
+.fill-row .text-mute, .fill-row .text-signal-soft { transition: color 0.3s; }
+.fill-row:hover .text-mute, .fill-row:hover .text-signal-soft, .fill-row:focus-visible .text-mute, .fill-row:focus-visible .text-signal-soft { color: rgb(255 255 255 / 0.9); }
+.cursor[data-ctx='hide'] { opacity: 0 !important; }
+@media (prefers-reduced-motion: reduce) { .fill-row::before { transition: none; } }

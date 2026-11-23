@@ -18,7 +18,7 @@ export default function Work() {
           <ul>
             {projects.map((p, i) => (
               <li key={p.slug} className="reveal border-t border-line last:border-b">
-                <Link href={`/work/${p.slug}`} className="grid items-end gap-4 py-8 md:grid-cols-[4rem_1.6fr_1fr_auto] md:py-10">
+                <Link href={`/work/${p.slug}`} data-cursor="hide" className="fill-row -mx-4 grid items-end gap-4 px-4 py-8 md:-mx-6 md:grid-cols-[4rem_1.6fr_1fr_auto] md:px-6 md:py-10">
                   <span className="font-mono text-xs text-mute">{String(i + 1).padStart(2, '0')}</span>
                   <span className="display text-[clamp(2rem,5vw,4.2rem)]"><Swap>{p.title}</Swap></span>
                   <span className="max-w-sm text-mute">{p.tagline}</span>

@@ -38,7 +38,7 @@ export function Cursor() {
       const under = document.elementFromPoint(mouse.x, mouse.y);
       hover = under?.closest(TARGET) ?? null;
       const section = under?.closest('section[id]')?.id ?? 'top';
-      const kind = hover ? (hover.matches('input,textarea') ? 'text' : 'target') : under?.closest('p') ? 'text' : section;
+      const kind = under?.closest('[data-cursor="hide"]') ? 'hide' : hover ? (hover.matches('input,textarea') ? 'text' : 'target') : under?.closest('p') ? 'text' : section;
       if (kind !== ctx) {
         ctx = kind;
         ring.dataset.ctx = kind;

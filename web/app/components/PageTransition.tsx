@@ -4,7 +4,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { reducedMotion } from '../lib/scroll';
 
 // "Hacked" page change: the screen dissolves into glitching code, the route swaps underneath, then it burns away.
-// Cells flip on a random threshold: coverage rising covers the page, coverage falling burns it off.
+// Each cell flips by its distance from the click (plus a little noise): the cover spreads out from where you clicked,
+// and the burn-away opens up from the same point.
 const CELL = 22;
 const IN = 650, OUT = 950, MIN_HOLD = 380, GIVE_UP = 4000;
 const GLYPHS = '01ABCDEF<>/{}$#=+';
@@ -34,9 +35,10 @@ export function PageTransition() {
       const size = CELL * dpr;
       ctx.font = `${size * 0.7}px ui-monospace, monospace`;
       ctx.textBaseline = 'top';
-      const glow = phase === 'out' ? (r: number) => r >= c && r < c + 0.05 : (r: number) => r < c && r > c - 0.05;
+      const out = phase === 'out';
+      const glow = (v: number) => (out ? v >= c && v < c + 0.05 : v < c && v > c - 0.05);
       for (let i = 0; i < rand.length; i++) {
-        const r = rand[i];
+        const r = out ? 1 - rand[i] : rand[i]; // on the way out, cells nearest the click clear first
         const x = (i % cols) * size, y = Math.floor(i / cols) * size;
         if (glow(r)) {
           ctx.fillStyle = r > 0.5 ? '#86a8ff' : '#2f6bff';
@@ -108,6 +110,9 @@ export function PageTransition() {
       const url = new URL(a.href, location.href);
       const file = url.pathname.split('/').pop()!.includes('.');
       if (url.origin !== location.origin || url.pathname === location.pathname || file) return;
+      const box = a.getBoundingClientRect();
+      const ox = e.detail === 0 ? box.left + box.width / 2 : e.clientX; // keyboard activation has no pointer position
+      const oy = e.detail === 0 ? box.top + box.height / 2 : e.clientY;
       e.preventDefault();
       e.stopPropagation(); // keep Next's own Link handler from navigating before the cover is up
       if (phase !== 'idle') return;
@@ -115,7 +120,11 @@ export function PageTransition() {
       W = canvas.width = Math.ceil(innerWidth * dpr);
       H = canvas.height = Math.ceil(innerHeight * dpr);
       cols = Math.ceil(W / (CELL * dpr));
-      rand = Float32Array.from({ length: cols * Math.ceil(H / (CELL * dpr)) }, Math.random);
+      const reach = Math.max(Math.hypot(ox, oy), Math.hypot(innerWidth - ox, oy), Math.hypot(ox, innerHeight - oy), Math.hypot(innerWidth - ox, innerHeight - oy));
+      rand = Float32Array.from({ length: cols * Math.ceil(H / (CELL * dpr)) }, (_, i) => {
+        const cx = ((i % cols) + 0.5) * CELL, cy = (Math.floor(i / cols) + 0.5) * CELL;
+        return (Math.hypot(cx - ox, cy - oy) / reach) * 0.9 + Math.random() * 0.1;
+      });
       startPath = location.pathname;
       target = url.pathname + url.search + url.hash;
       label = url.pathname === '/' ? '/home' : url.pathname;
