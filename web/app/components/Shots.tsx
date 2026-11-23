@@ -5,8 +5,9 @@ import { reducedMotion } from '../lib/scroll';
 // Click anywhere to leave a bullet impact; hold to keep firing. The spray widens the longer you hold (recoil).
 // Each impact corrupts the screen: a white flash, a dead-pixel hole with an RGB split, flickering data blocks and tear bars
 // snapped to a pixel grid, and bits that fall under gravity. A few blocks stay as residue until the mark fades.
-const LIFE = 3200, RATE = 85, MAX = 100, SPREAD = 14, RAMP = 1200; // ms, ms between shots, max live shots, px, ms to full spread
-const SKIP = 'input,textarea,select';
+const LIFE = 1600, RATE = 85, MAX = 100, SPREAD = 14, RAMP = 1200; // ms, ms between shots, max live shots, px, ms to full spread
+// no marks on anything clickable or editable, so links and buttons stay easy to hit
+const SKIP = 'a,button,[role="button"],.btn,summary,label,input,textarea,select';
 
 type Shot = { x: number; y: number; t: number; blocks: [number, number, number, number, string][]; sparks: [number, number][] };
 const TINTS = ['#00e0ff', '#ff2850', '#2f6bff', '#a0ff8c', '#ffffff'];
