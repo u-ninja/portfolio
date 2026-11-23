@@ -27,7 +27,7 @@ export function Invitation() {
         </h2>
 
         <Magnetic>
-          <a href="mailto:hello@teeme.org" className="display mt-12 inline-block text-[clamp(1.8rem,5vw,4.5rem)] underline decoration-line underline-offset-[0.18em] transition-colors hover:decoration-signal-soft">hello@teeme.org</a>
+          <a href="mailto:hello@teeme.org" className="glitch display mt-12 inline-block text-[clamp(1.8rem,5vw,4.5rem)] underline decoration-line underline-offset-[0.18em] transition-colors hover:decoration-signal-soft">hello@teeme.org</a>
         </Magnetic>
 
         <div className="mt-12 flex flex-wrap gap-3">
@@ -41,7 +41,7 @@ export function Invitation() {
               <a
                 href={l.href}
                 {...(l.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                className="inline-flex items-center gap-2 underline decoration-line underline-offset-8 transition-colors hover:decoration-signal-soft"
+                className="glitch inline-flex items-center gap-2 underline decoration-line underline-offset-8 hover:decoration-signal-soft"
               >
                 {'icon' in l && <WhatsAppIcon />}
                 {l.label}

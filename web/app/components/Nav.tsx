@@ -80,7 +80,7 @@ export function Nav() {
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className="text-sm text-mute hover:text-white transition-colors duration-200 tracking-wide cursor-pointer"
+                  className="glitch text-sm text-mute hover:text-white tracking-wide cursor-pointer"
                 >
                   {link.label}
                 </a>

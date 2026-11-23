@@ -5,7 +5,7 @@ import { reducedMotion } from '../lib/scroll';
 // Click anywhere to leave a bullet impact; hold to keep firing. The spray widens the longer you hold (recoil).
 // Each impact corrupts the screen: a white flash, a dead-pixel hole with an RGB split, flickering data blocks and tear bars
 // snapped to a pixel grid, and bits that fall under gravity. A few blocks stay as residue until the mark fades.
-const LIFE = 3200, RATE = 85, MAX = 160, SPREAD = 26, RAMP = 1200; // ms, ms between shots, max live shots, px, ms to full spread
+const LIFE = 3200, RATE = 85, MAX = 100, SPREAD = 14, RAMP = 1200; // ms, ms between shots, max live shots, px, ms to full spread
 const SKIP = 'input,textarea,select';
 
 type Shot = { x: number; y: number; t: number; blocks: [number, number, number, number, string][]; sparks: [number, number][] };
@@ -38,7 +38,7 @@ export function Shots() {
         const fade = age < LIFE * 0.6 ? 1 : 1 - (age - LIFE * 0.6) / (LIFE * 0.4);
         if (age < 90) { // impact flash
           ctx.fillStyle = `rgba(255,244,214,${(1 - age / 90) * 0.9})`;
-          ctx.beginPath(); ctx.arc(s.x, s.y, 4 + (age / 90) * 14, 0, 7); ctx.fill();
+          ctx.beginPath(); ctx.arc(s.x, s.y, 3 + (age / 90) * 7, 0, 7); ctx.fill();
         }
         const step = (age / 55) | 0, live = age < 700;
         s.blocks.forEach(([dx, dy, w, h, c], i) => {
@@ -49,14 +49,14 @@ export function Shots() {
           ctx.fillRect(s.x + dx + (live && i % 3 === 0 ? ((step * 37 + i * 11) % 5 - 2) * 3 : 0), s.y + dy, w, h);
         });
         ctx.globalAlpha = fade;
-        ctx.fillStyle = '#ff2850'; ctx.fillRect(s.x - 5, s.y - 3, 6, 6);
-        ctx.fillStyle = '#00e0ff'; ctx.fillRect(s.x - 1, s.y - 3, 6, 6);
-        ctx.fillStyle = '#000'; ctx.fillRect(s.x - 3, s.y - 3, 6, 6);
+        ctx.fillStyle = '#ff2850'; ctx.fillRect(s.x - 3, s.y - 2, 4, 4);
+        ctx.fillStyle = '#00e0ff'; ctx.fillRect(s.x - 1, s.y - 2, 4, 4);
+        ctx.fillStyle = '#000'; ctx.fillRect(s.x - 2, s.y - 2, 4, 4);
         ctx.globalAlpha = 1;
         if (age < 380) { // sparks
           const sec = age / 1000;
           ctx.fillStyle = `rgba(255,255,255,${1 - age / 380})`;
-          for (const [vx, vy] of s.sparks) ctx.fillRect(s.x + vx * sec, s.y + vy * sec + 900 * sec * sec, 3, 3);
+          for (const [vx, vy] of s.sparks) ctx.fillRect(s.x + vx * sec, s.y + vy * sec + 900 * sec * sec, 2, 2);
         }
       }
       raf = shots.length ? requestAnimationFrame(draw) : 0;
@@ -67,11 +67,11 @@ export function Shots() {
       const a = rnd(0, 6.283), r = Math.random() * spread;
       shots.push({
         x: mx + Math.cos(a) * r, y: my + Math.sin(a) * r, t: performance.now(),
-        blocks: Array.from({ length: 12 + ((Math.random() * 8) | 0) }, () => {
-          const tear = Math.random() < 0.15; // a few long thin bars, like a torn scanline
-          return [snap(rnd(-36, 36)), snap(rnd(-24, 24)), snap(tear ? rnd(60, 160) : rnd(3, 48)), tear ? 3 : snap(rnd(3, 9)), TINTS[(Math.random() * TINTS.length) | 0]];
+        blocks: Array.from({ length: 5 + ((Math.random() * 4) | 0) }, () => {
+          const tear = Math.random() < 0.12; // a few thin bars, like a torn scanline
+          return [snap(rnd(-15, 15)), snap(rnd(-9, 9)), snap(tear ? rnd(24, 60) : rnd(3, 18)), tear ? 3 : snap(rnd(3, 6)), TINTS[(Math.random() * TINTS.length) | 0]];
         }),
-        sparks: Array.from({ length: 5 }, () => { const b = rnd(0, 6.283), v = rnd(60, 240); return [Math.cos(b) * v, Math.sin(b) * v - 80]; }),
+        sparks: Array.from({ length: 3 }, () => { const b = rnd(0, 6.283), v = rnd(40, 140); return [Math.cos(b) * v, Math.sin(b) * v - 80]; }),
       });
       if (shots.length > MAX) shots.shift();
       if (!raf) raf = requestAnimationFrame(draw);

@@ -11,7 +11,7 @@ export function Work() {
             <li key={p.slug} className="reveal border-b border-line">
               <Link href={`/work/${p.slug}`} className="fill-row group grid gap-x-8 gap-y-2 px-1 py-7 md:grid-cols-[3rem_1fr_1.1fr_4rem] md:items-baseline md:py-9">
                 <span className="font-mono text-xs text-mute">0{i + 1}</span>
-                <span className="display text-[clamp(2rem,4.6vw,4rem)] transition-transform duration-500 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] group-hover:translate-x-3">{p.title}</span>
+                <span className="glitch display text-[clamp(2rem,4.6vw,4rem)]">{p.title}</span>
                 <span className="text-mute">{p.tagline}</span>
                 <span className="font-mono text-xs text-mute md:text-right">{p.year}</span>
               </Link>

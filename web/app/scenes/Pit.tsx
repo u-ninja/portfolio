@@ -33,7 +33,7 @@ export function Pit() {
     const bodies = chips.map((c, i) => {
       const w = c.offsetWidth, h = c.offsetHeight;
       const b = Bodies.rectangle(w / 2 + Math.random() * Math.max(1, W() - w), -h - i * 70, w, h, {
-        chamfer: { radius: h / 2 }, restitution: 0.35, friction: 0.4, frictionAir: 0.01, angle: (Math.random() - 0.5) * 0.8,
+        restitution: 0.35, friction: 0.4, frictionAir: 0.01, angle: (Math.random() - 0.5) * 0.8,
       });
       return b;
     });
