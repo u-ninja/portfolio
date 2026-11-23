@@ -3,11 +3,14 @@ import { useEffect, useRef } from 'react';
 import { reducedMotion } from '../lib/scroll';
 
 // Click anywhere to leave a bullet impact; hold to keep firing. The spray widens the longer you hold (recoil).
-// Each impact: a white flash, a dark hole with a bright rim, radiating cracks and sparks that fall under gravity.
+// Each impact corrupts the screen: a white flash, a dead-pixel hole with an RGB split, flickering data blocks and tear bars
+// snapped to a pixel grid, and bits that fall under gravity. A few blocks stay as residue until the mark fades.
 const LIFE = 3200, RATE = 85, MAX = 160, SPREAD = 26, RAMP = 1200; // ms, ms between shots, max live shots, px, ms to full spread
 const SKIP = 'input,textarea,select';
 
-type Shot = { x: number; y: number; t: number; cracks: [number, number][]; sparks: [number, number][] };
+type Shot = { x: number; y: number; t: number; blocks: [number, number, number, number, string][]; sparks: [number, number][] };
+const TINTS = ['#00e0ff', '#ff2850', '#2f6bff', '#a0ff8c', '#ffffff'];
+const snap = (v: number) => Math.round(v / 3) * 3; // blocks sit on a 3px grid, like screen pixels
 const rnd = (a: number, b: number) => a + Math.random() * (b - a);
 
 export function Shots() {
@@ -37,20 +40,23 @@ export function Shots() {
           ctx.fillStyle = `rgba(255,244,214,${(1 - age / 90) * 0.9})`;
           ctx.beginPath(); ctx.arc(s.x, s.y, 4 + (age / 90) * 14, 0, 7); ctx.fill();
         }
-        ctx.strokeStyle = `rgba(255,255,255,${0.5 * fade})`; ctx.lineWidth = 1;
-        ctx.beginPath();
-        for (const [a, len] of s.cracks) {
-          const l = len * Math.min(1, age / 60);
-          ctx.moveTo(s.x + Math.cos(a) * 3.5, s.y + Math.sin(a) * 3.5);
-          ctx.lineTo(s.x + Math.cos(a) * (3.5 + l), s.y + Math.sin(a) * (3.5 + l));
-        }
-        ctx.stroke();
-        ctx.fillStyle = '#000'; ctx.strokeStyle = `rgba(255,255,255,${0.75 * fade})`; ctx.lineWidth = 1.2;
-        ctx.beginPath(); ctx.arc(s.x, s.y, 2.6, 0, 7); ctx.fill(); ctx.stroke();
+        const step = (age / 55) | 0, live = age < 700;
+        s.blocks.forEach(([dx, dy, w, h, c], i) => {
+          // while live each block flickers on and off, and every third one jitters sideways; after that only the first four stay
+          if (live ? (Math.imul(i * 131 + step * 977, 0x9e3779b1) >>> 28) % 4 === 0 : i >= 4) return;
+          ctx.globalAlpha = fade * (live ? 1 : 0.8);
+          ctx.fillStyle = c;
+          ctx.fillRect(s.x + dx + (live && i % 3 === 0 ? ((step * 37 + i * 11) % 5 - 2) * 3 : 0), s.y + dy, w, h);
+        });
+        ctx.globalAlpha = fade;
+        ctx.fillStyle = '#ff2850'; ctx.fillRect(s.x - 5, s.y - 3, 6, 6);
+        ctx.fillStyle = '#00e0ff'; ctx.fillRect(s.x - 1, s.y - 3, 6, 6);
+        ctx.fillStyle = '#000'; ctx.fillRect(s.x - 3, s.y - 3, 6, 6);
+        ctx.globalAlpha = 1;
         if (age < 380) { // sparks
           const sec = age / 1000;
-          ctx.fillStyle = `rgba(255,${180 + ((age / 4) | 0) % 60},90,${1 - age / 380})`;
-          for (const [vx, vy] of s.sparks) ctx.fillRect(s.x + vx * sec, s.y + vy * sec + 900 * sec * sec, 1.6, 1.6);
+          ctx.fillStyle = `rgba(255,255,255,${1 - age / 380})`;
+          for (const [vx, vy] of s.sparks) ctx.fillRect(s.x + vx * sec, s.y + vy * sec + 900 * sec * sec, 3, 3);
         }
       }
       raf = shots.length ? requestAnimationFrame(draw) : 0;
@@ -61,7 +67,10 @@ export function Shots() {
       const a = rnd(0, 6.283), r = Math.random() * spread;
       shots.push({
         x: mx + Math.cos(a) * r, y: my + Math.sin(a) * r, t: performance.now(),
-        cracks: Array.from({ length: 5 + ((Math.random() * 4) | 0) }, () => [rnd(0, 6.283), rnd(5, 20)]),
+        blocks: Array.from({ length: 12 + ((Math.random() * 8) | 0) }, () => {
+          const tear = Math.random() < 0.15; // a few long thin bars, like a torn scanline
+          return [snap(rnd(-36, 36)), snap(rnd(-24, 24)), snap(tear ? rnd(60, 160) : rnd(3, 48)), tear ? 3 : snap(rnd(3, 9)), TINTS[(Math.random() * TINTS.length) | 0]];
+        }),
         sparks: Array.from({ length: 5 }, () => { const b = rnd(0, 6.283), v = rnd(60, 240); return [Math.cos(b) * v, Math.sin(b) * v - 80]; }),
       });
       if (shots.length > MAX) shots.shift();
