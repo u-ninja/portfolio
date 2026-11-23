@@ -3,15 +3,35 @@ import { useEffect, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { reducedMotion } from '../lib/scroll';
 
-// Page change: a quick pixel wipe covers the screen, the route swaps underneath, then it clears.
-// Each cell flips by its distance from the click (plus a little noise): the cover spreads out from where you clicked,
-// and the clearing opens up from the same point.
-const CELL = 14;
-const IN = 380, OUT = 520, MIN_HOLD = 100, GIVE_UP = 4000;
+// Page change: a burn creeps out from the click as single device pixels, the route swaps underneath, then the burn eats the cover away.
+// The canvas holds one pixel per cell and is scaled up unsmoothed, so a QHD screen costs about one ImageData upload per frame.
+// Arrival time = distance from the click bent by fractal noise, so the front fingers outward like a spreading infection.
+const CELL = 3; // device pixels per cell
+const IN = 950, OUT = 1150, MIN_HOLD = 120, GIVE_UP = 4000;
+const EDGE = 0.04; // width of the glowing front, in arrival-time units
+const INK = 0xff0a0605, HOT = 0xffffe0cf, MID = 0xffffa886, LOW = 0xffff6b2f; // ABGR
 const ease = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
 const clamp = (v: number) => Math.min(1, Math.max(0, v));
 
 type Phase = 'idle' | 'in' | 'hold' | 'out';
+
+/** Value noise in [0,1): three octaves of a random lattice, bilinear with smoothstep. */
+function noiseField(cols: number, rows: number) {
+  const octs = [[48, 0.55], [18, 0.3], [7, 0.15]].map(([cell, w]) => {
+    const gx = Math.ceil(cols / cell) + 2, gy = Math.ceil(rows / cell) + 2;
+    return { cell, w, gx, g: Float32Array.from({ length: gx * gy }, Math.random) };
+  });
+  return (x: number, y: number) => {
+    let v = 0;
+    for (const { cell, w, gx, g } of octs) {
+      const fx = x / cell, fy = y / cell, ix = fx | 0, iy = fy | 0;
+      const tx = fx - ix, ty = fy - iy, sx = tx * tx * (3 - 2 * tx), sy = ty * ty * (3 - 2 * ty);
+      const i = iy * gx + ix;
+      v += w * ((g[i] * (1 - sx) + g[i + 1] * sx) * (1 - sy) + (g[i + gx] * (1 - sx) + g[i + gx + 1] * sx) * sy);
+    }
+    return v;
+  };
+}
 
 export function PageTransition() {
   const cv = useRef<HTMLCanvasElement>(null);
@@ -26,25 +46,23 @@ export function PageTransition() {
     if (!canvas || !ctx || reducedMotion()) return;
 
     let phase: Phase = 'idle';
-    let t0 = 0, raf = 0, startPath = '', target = '';
-    let rand = new Float32Array(0), cols = 0, dpr = 1, W = 0, H = 0;
+    let t0 = 0, raf = 0, startPath = '', target = '', frameNo = 0;
+    let arrive = new Float32Array(0), cols = 0, rows = 0;
+    let img = ctx.createImageData(1, 1), px = new Uint32Array(img.data.buffer);
 
-    const draw = (c: number) => {
-      ctx.clearRect(0, 0, W, H);
-      const size = CELL * dpr;
+    // p: how far the burn has travelled (0 to just past 1). 'in' fills what it has reached; 'out' clears it.
+    const draw = (p: number) => {
       const out = phase === 'out';
-      const glow = (v: number) => (out ? v >= c && v < c + 0.05 : v < c && v > c - 0.05);
-      for (let i = 0; i < rand.length; i++) {
-        const r = out ? 1 - rand[i] : rand[i]; // on the way out, cells nearest the click clear first
-        const x = (i % cols) * size, y = Math.floor(i / cols) * size;
-        if (glow(r)) {
-          ctx.fillStyle = r > 0.5 ? '#86a8ff' : '#2f6bff';
-          ctx.fillRect(x, y, size, size);
-        } else if (r < c) {
-          ctx.fillStyle = '#05060a';
-          ctx.fillRect(x, y, size + 1, size + 1);
-        }
+      frameNo++;
+      for (let i = 0; i < arrive.length; i++) {
+        const r = arrive[i];
+        const d = out ? r - p : p - r; // distance behind the front; the front is where d = 0
+        if (d >= EDGE) px[i] = INK;
+        else if (d >= 0) { const k = d / EDGE; px[i] = k < 0.34 ? HOT : k < 0.67 ? MID : LOW; }
+        else if (!out && d > -EDGE * 1.4 && (Math.imul(i ^ Math.imul(frameNo, 0x9e3779b1), 0x85ebca6b) >>> 16) % 11 === 0) px[i] = HOT; // sparks ahead of the front
+        else px[i] = 0;
       }
+      ctx.putImageData(img, 0, 0);
     };
 
     const finish = () => {
@@ -56,13 +74,13 @@ export function PageTransition() {
     const frame = (now: number) => {
       const dt = now - t0;
       if (phase === 'in') {
-        draw(ease(clamp(dt / IN)));
+        draw(ease(clamp(dt / IN)) * 1.12);
         if (dt >= IN) { phase = 'hold'; t0 = now; router.push(target); }
       } else if (phase === 'hold') {
-        draw(1);
+        draw(1.12);
         if ((pathNow.current !== startPath && dt > MIN_HOLD) || dt > GIVE_UP) { phase = 'out'; t0 = now; }
       } else if (phase === 'out') {
-        draw(1 - ease(clamp(dt / OUT)));
+        draw(ease(clamp(dt / OUT)) * 1.12);
         if (dt >= OUT) return finish();
       }
       raf = requestAnimationFrame(frame);
@@ -81,15 +99,17 @@ export function PageTransition() {
       e.preventDefault();
       e.stopPropagation(); // keep Next's own Link handler from navigating before the cover is up
       if (phase !== 'idle') return;
-      dpr = Math.min(2, window.devicePixelRatio || 1);
-      W = canvas.width = Math.ceil(innerWidth * dpr);
-      H = canvas.height = Math.ceil(innerHeight * dpr);
-      cols = Math.ceil(W / (CELL * dpr));
-      const reach = Math.max(Math.hypot(ox, oy), Math.hypot(innerWidth - ox, oy), Math.hypot(ox, innerHeight - oy), Math.hypot(innerWidth - ox, innerHeight - oy));
-      rand = Float32Array.from({ length: cols * Math.ceil(H / (CELL * dpr)) }, (_, i) => {
-        const cx = ((i % cols) + 0.5) * CELL, cy = (Math.floor(i / cols) + 0.5) * CELL;
-        return (Math.hypot(cx - ox, cy - oy) / reach) * 0.9 + Math.random() * 0.1;
-      });
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const k = dpr / CELL; // cells per CSS pixel
+      cols = Math.ceil(innerWidth * k); rows = Math.ceil(innerHeight * k);
+      canvas.width = cols; canvas.height = rows;
+      img = ctx.createImageData(cols, rows); px = new Uint32Array(img.data.buffer);
+      const reach = Math.max(Math.hypot(ox, oy), Math.hypot(innerWidth - ox, oy), Math.hypot(ox, innerHeight - oy), Math.hypot(innerWidth - ox, innerHeight - oy)) * k;
+      const noise = noiseField(cols, rows), cx = ox * k, cy = oy * k;
+      arrive = new Float32Array(cols * rows);
+      for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+        arrive[y * cols + x] = (Math.hypot(x - cx, y - cy) / reach) * 0.6 + noise(x, y) * 0.4 + Math.random() * 0.02;
+      }
       startPath = location.pathname;
       target = url.pathname + url.search + url.hash;
       canvas.style.display = 'block';
@@ -107,5 +127,5 @@ export function PageTransition() {
     };
   }, [router]);
 
-  return <canvas ref={cv} aria-hidden="true" style={{ display: 'none' }} className="pointer-events-none fixed inset-0 z-[90] h-full w-full" />;
+  return <canvas ref={cv} aria-hidden="true" style={{ display: 'none', imageRendering: 'pixelated' }} className="pointer-events-none fixed inset-0 z-[90] h-full w-full" />;
 }
